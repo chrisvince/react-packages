@@ -1,6 +1,6 @@
 {
   "name": "@sb-m/line-items",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utilities for handling line item ecommerce data",
   "author": "sb-m <sb-m.com>",
   "publishConfig": {
