@@ -1,5 +1,7 @@
-import productById from './productById'
+import productFromProductId from './productFromProductId'
+import productFromVariantId from './productFromVariantId'
 
 export {
-	productById,
+	productFromProductId,
+	productFromVariantId,
 }
