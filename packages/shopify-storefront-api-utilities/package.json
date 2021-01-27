@@ -1,8 +1,11 @@
 {
-  "name": "shopify-storefront-utilities",
-  "version": "1.0.0",
-  "description": "Utilities for data handling using the Shopify Storefront API",
+  "name": "@sb-m/shopify-storefront-api-utilities",
+  "version": "1.0.1",
+  "description": "Utilities for handling Shopify data sourced from the Shopify Storefront API",
   "author": "sb-m <sb-m.com>",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "files": [
