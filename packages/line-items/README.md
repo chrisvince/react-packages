@@ -21,14 +21,11 @@ line items.
 `const newLineItems = add(variantId, quantity, existingLineItems)`
 
 #### Parameters
-`variantId`
-: The identifier for the line item to be added.
-
-`quantity`
-: The quantity of the variant to be added.
-
-`existingLineItems`
-: The existing line items list (defaults to 1).
+| Parameter           | Description                                              |
+|:--------------------|:---------------------------------------------------------|
+| `variantId`         | The identifier for the line item to be added.            |
+| `quantity`          | The quantity of the variant to be added (defaults to 1). |
+| `existingLineItems` | The existing line items list.                            |
 
 ### remove
 Removes a line item from a line item list. Returns a new list of line items.
@@ -37,11 +34,10 @@ Removes a line item from a line item list. Returns a new list of line items.
 `const newLineItems = remove(variantId, existingLineItems)`
 
 #### Parameters
-`variantId`
-: The identifier for the line item to be removed.
-
-`existingLineItems`
-: The existing line items list.
+| Parameter           | Description                                     |
+|:--------------------|:------------------------------------------------|
+| `variantId`         | The identifier for the line item to be removed. |
+| `existingLineItems` | The existing line items list.                   |
 
 ### increment
 Increments an existing line item. Returns a new list of line items.
@@ -50,11 +46,10 @@ Increments an existing line item. Returns a new list of line items.
 `const newLineItems = increment(variantId, existingLineItems)`
 
 #### Parameters
-`variantId`
-: The identifier for the line item to be increment.
-
-`existingLineItems`
-: The existing line items list.
+| Parameter           | Description                                         |
+|:--------------------|:----------------------------------------------------|
+| `variantId`         | The identifier for the line item to be incremented. |
+| `existingLineItems` | The existing line items list.                       |
 
 ### decrement
 Decrements an existing line item. If the decremented line item quantity is zero, the line item will
@@ -64,11 +59,10 @@ be removed from the line item list. Returns a new list of line items.
 `const newLineItems = decrement(variantId, existingLineItems)`
 
 #### Parameters
-`variantId`
-: The identifier for the line item to be decremented.
-
-`existingLineItems`
-: The existing line items list.
+| Parameter           | Description                                         |
+|:--------------------|:----------------------------------------------------|
+| `variantId`         | The identifier for the line item to be decremented. |
+| `existingLineItems` | The existing line items list.                       |
 
 ### updateQuantity
 Updates the quantity of an existing line item. If the quantity is zero, the line item is removed.
@@ -78,11 +72,8 @@ Returns a new list of line items.
 `const newLineItems = updateQuantity(variantId, quantity, existingLineItems)`
 
 #### Parameters
-`variantId`
-: The identifier for the line item to be updated.
-
-`quantity`
-: The quantity to update the existing variant.
-
-`existingLineItems`
-: The existing line items list.
+| Parameter           | Description                                     |
+|:--------------------|:------------------------------------------------|
+| `variantId`         | The identifier for the line item to be updated. |
+| `quantity`          | The quantity to update the existing variant.    |
+| `existingLineItems` | The existing line items list.                   |

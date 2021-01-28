@@ -19,7 +19,7 @@ Return the product that matches the productId from a list of products.
 
 #### Parameters
 | Parameter   | Description                                    |
-|-------------|------------------------------------------------|
+|:------------|:-----------------------------------------------|
 | `productId` | The identifier for the product to be returned. |
 | `products`  | A list of products.                            |
 
@@ -32,7 +32,7 @@ Return the product of the variant that matches the variantId from a list of prod
 
 #### Parameters
 | Parameter   | Description                                                    |
-|-------------|----------------------------------------------------------------|
+|:------------|:---------------------------------------------------------------|
 | `variantId` | The identifier for the variant which product will be returned. |
 | `products`  | A list of products.                                            |
 
