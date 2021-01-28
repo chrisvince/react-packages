@@ -41,28 +41,28 @@ The products passed must include the variants and their IDs in order for the pro
 For example,
 ```
 const products = [
-	{
-		title: 'Product 1',
-		variants: [
-			{
-				id: 'variant-1-id',
-				title: 'Product 1, variant 1',
-			},
-		]
-	}
+    {
+        title: 'Product 1',
+        variants: [
+            {
+                id: 'variant-1-id',
+                title: 'Product 1, variant 1',
+            },
+        ]
+    }
 ]
 
 const product = productFromVariantId('variant-1-id', products)
 
 /*
-returns: {
-	title: 'Product 1',
-	variants: [
-		{
-			id: 'variant-1-id',
-			title: 'Product 1, variant 1',
-		},
-	]
+product === {
+    title: 'Product 1',
+    variants: [
+        {
+            id: 'variant-1-id',
+            title: 'Product 1, variant 1',
+        },
+    ]
 }
 */
 ```
