@@ -1,0 +1,43 @@
+{
+  "name": "@sb-m/redux-local-storage",
+  "version": "1.0.0",
+  "description": "Functions for persisting redux data to local storage.",
+  "author": "sb-m <sb-m.com>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "rollup -c --watch",
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "@sb-m/eslint-config": "^1.0.21",
+    "eslint-loader": "^4.0.2",
+    "eslint": "^7.18.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup": "^2.38.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sb-m/shopify-storefront-utilities.git"
+  },
+  "keywords": [
+    "local storage",
+    "redux"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sb-m/shopify-storefront-utilities/issues"
+  },
+  "homepage": "https://github.com/sb-m/shopify-storefront-utilities#readme"
+}
