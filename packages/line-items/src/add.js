@@ -13,11 +13,11 @@ export default (variantId, quantity = 1, lineItems) => {
 		return newLineItems
 	}
 
-	const lineItemToChange = nth(existingLineItemIndex, lineItems)
-	const lineItemToChangeQuantity = parseInt(lineItemToChange.quantity, 10)
-	const lineItemDataQuantity = parseInt(variantId.quantity, 10) || 1
-	const newQuantity = lineItemToChangeQuantity + lineItemDataQuantity
-	const newLineItem = assoc('quantity', newQuantity, lineItemToChange)
+	const existingLineItem = nth(existingLineItemIndex, lineItems)
+	const existingLineItemQuantityParsed = parseInt(existingLineItem.quantity, 10)
+	const quantityParsed = parseInt(quantity, 10)
+	const newQuantity = existingLineItemQuantityParsed + quantityParsed
+	const newLineItem = assoc('quantity', newQuantity, existingLineItem)
 	const newLineItems = update(existingLineItemIndex, newLineItem, lineItems)
 	return newLineItems
 }

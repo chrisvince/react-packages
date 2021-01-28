@@ -1,20 +1,21 @@
 import { assoc, update, nth } from 'ramda'
 import findLineItemIndex from './utilities/findLineItemIndex'
 
-export default (variantId, newQuantity, lineItems) => {
+export default (variantId, quantity, lineItems) => {
 	const existingLineItemIndex = findLineItemIndex(variantId, lineItems)
 
 	if (existingLineItemIndex === -1) {
 		return lineItems
 	}
 
-	if (!newQuantity) {
-		return lineItems
+	if (quantity <= 0) {
+		const newLineItems = remove(existingLineItemIndex, 1, lineItems)
+		return newLineItems
 	}
 
-	const lineItemToChange = nth(existingLineItemIndex, lineItems)
-	const newQuantityParsed = parseInt(newQuantity, 10)
-	const newLineItem = assoc('quantity', newQuantityParsed, lineItemToChange)
+	const existingLineItem = nth(existingLineItemIndex, lineItems)
+	const quantityParsed = parseInt(quantity, 10)
+	const newLineItem = assoc('quantity', quantityParsed, existingLineItem)
 	const newLineItems = update(existingLineItemIndex, newLineItem, lineItems)
 	return newLineItems
 }
