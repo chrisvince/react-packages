@@ -1,1 +1,1 @@
-export default (id, products) => products.find(x => x.id === id)
+export default (id, products) => products.find(product => product.shopifyId === id)
