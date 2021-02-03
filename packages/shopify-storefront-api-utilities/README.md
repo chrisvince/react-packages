@@ -18,10 +18,10 @@ Return the product that matches the productId from a list of products.
 `const product = productFromProductId(productId, products)`
 
 #### Parameters
-| Parameter   | Description                                    |
-|:------------|:-----------------------------------------------|
-| `productId` | The identifier for the product to be returned. |
-| `products`  | A list of products.                            |
+| Parameter   | Description                                                                                                                                        |
+|:------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
+| `productId` | The identifier for the product to be returned. Note: this is the `shopifyId` passed from `gatsby-source-shopify-storefront`, not the regular `id`. |
+| `products`  | A list of products.                                                                                                                                |
 
 
 ### productFromVariantId
@@ -31,10 +31,10 @@ Return the product of the variant that matches the variantId from a list of prod
 `const product = productFromVariantId(variantId, products)`
 
 #### Parameters
-| Parameter   | Description                                                    |
-|:------------|:---------------------------------------------------------------|
-| `variantId` | The identifier for the variant which product will be returned. |
-| `products`  | A list of products.                                            |
+| Parameter   | Description                                                                                                                                                        |
+|:------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `variantId` | The identifier for the variant which product will be returned. Note: this is the `shopifyId` passed from `gatsby-source-shopify-storefront`, not the regular `id`. |
+| `products`  | A list of products.                                                                                                                                                |
 
 #### Considerations
 The products passed must include the variants and their IDs in order for the product to be found.
