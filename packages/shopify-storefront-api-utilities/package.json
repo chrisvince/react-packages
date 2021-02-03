@@ -1,6 +1,6 @@
 {
   "name": "@sb-m/shopify-storefront-api-utilities",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Utilities for handling Shopify data sourced from the Shopify Storefront API",
   "author": "sb-m <sb-m.com>",
   "publishConfig": {
@@ -17,8 +17,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "ramda": "^0.27.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
