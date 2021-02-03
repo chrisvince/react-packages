@@ -68,14 +68,17 @@ product === {
 ```
 
 ### getSelectedOptionsFromUrlParams
-Returns an object of the options as taken from the URL search parameters. If the URL search
-parameters does not contain the specific value, it will return the default.
+Returns an object of the product options as taken from the URL search parameters. If
+the URL search parameters does not contain a valid value, it will return the default
+options (the first). The options array from the product data point should be be
+passed as the first argument.
 
 #### Syntax
 `const product = getSelectedOptionsFromUrlParams(options)`
 
 #### Usage
-This function works best setting the initial selected options state. For example,
+This function is intended to be used to set the selectedOptions initial state. For
+example,
 `const [ selectedOptions, setSelectedOptions ] = useState(() => getSelectedOptionsFromUrlParams(options))`
 
 #### Parameters
