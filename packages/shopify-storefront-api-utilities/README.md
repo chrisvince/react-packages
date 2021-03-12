@@ -41,28 +41,28 @@ The products passed must include the variants and their IDs in order for the pro
 For example,
 ```
 const products = [
-    {
-        title: 'Product 1',
-        variants: [
-            {
-                id: 'variant-1-id',
-                title: 'Product 1, variant 1',
-            },
-        ]
-    }
+	{
+		title: 'Product 1',
+		variants: [
+			{
+				id: 'variant-1-id',
+				title: 'Product 1, variant 1',
+			},
+		]
+	}
 ]
 
 const product = productFromVariantId('variant-1-id', products)
 
 /*
 product === {
-    title: 'Product 1',
-    variants: [
-        {
-            id: 'variant-1-id',
-            title: 'Product 1, variant 1',
-        },
-    ]
+	title: 'Product 1',
+	variants: [
+		{
+			id: 'variant-1-id',
+			title: 'Product 1, variant 1',
+		},
+	]
 }
 */
 ```
@@ -102,8 +102,8 @@ it will filter accordingly.
 In order for this utility to work, any variants must include at minimum the data outlined below in
 the GraphQL example.
 ```
-    query {
-        allShopifyProductVariant {
+	query {
+		allShopifyProductVariant {
 			nodes {
 				shopifyId
 				selectedOptions {
@@ -115,7 +115,7 @@ the GraphQL example.
 				}
 			}
 		}
-    }
+	}
 ```
 
 #### Syntax
@@ -135,3 +135,112 @@ const filteredVariants = filterUniqueVariantsByOption([ 'Color', 'Strap Color' ]
 |:--------------|:--------------------|:-------------------------------------------------------------------------|
 | `optionNames` | `String` or `Array` | The option or options the returned list of variants should be unique by. |
 | `variants`    | `Array`             | An array of product variants from the Shopify Storefront API.            |
+
+
+### formatPriceRange
+Formats price range from a price range object from Shopify Storefront API. If the prices match, a
+single price will be passed, if only the currency codes match, the currency code will be shown with
+the price range, if both the currency code and the price doesn't match, it will show both the
+minimum and maximum currency code and price.
+
+#### Minimum GraphQL Data Requirement
+In order for this utility to work, the 'priceRange' object must be passed with 'minVariantPrice' and
+'maxVariantPrice' objects with their 'amount' and 'currencyCode' data points.
+```
+	query {
+		allShopifyProduct {
+			nodes {
+				...
+				priceRange {
+					minVariantPrice {
+						currencyCode
+						amount
+					}
+					maxVariantPrice {
+						currencyCode
+						amount
+					}
+				}
+				...
+			}
+		}
+	}
+```
+
+#### Syntax
+`const priceRange = formatPriceRange(priceRange)`
+
+#### Usage
+```
+// Price range object mock
+const priceRange = {
+	minVariantPrice: {
+		currencyCode: "USD",
+		amount: "120.00",
+	},
+	maxVariantPrice: {
+		currencyCode: "USD",
+		amount: "140.0",
+	}
+}
+
+const price = renderPriceFromPriceRange(priceRange)
+// USD $120.00-$140.00
+```
+
+#### Parameters
+| Parameter    | Type     | Description                                  |
+|:-------------|:---------|:---------------------------------------------|
+| `priceRange` | `Object` | A priceRange object from the Storefront API. |
+
+
+### formatPrice
+Formats a price based on a price object passed from the Shopify Storefront API. The number format
+can be changed by passing a [numeral format](http://numeraljs.com/#format) in the options object.
+
+#### Minimum GraphQL Data Requirement
+In order for this utility to work, the 'price' object must be passed with 'amount' and
+'currencyCode' data points. For example,
+```
+	query {
+		allShopifyProduct {
+			nodes {
+				...
+				priceV2 {
+					currencyCode
+					amount
+				}
+				...
+			}
+		}
+	}
+```
+
+#### Syntax
+`const price = formatPrice(price, options)`
+
+#### Usage
+```
+// Price object mock
+const price = {
+	currencyCode: "USD",
+	amount: "1200.00",
+}
+
+const formattedPrice = formatPrice(price)
+// USD $1,200.00
+
+// With options
+const options = {
+	format: '$0,0',
+}
+
+const formattedPriceWithOptions = formatPrice(price, options)
+// USD $1,200
+```
+
+#### Parameters
+| Parameter | Type     | Description                                                 |
+|:----------|:---------|:------------------------------------------------------------|
+| `price`   | `Object` | A price object from the Storefront API.                     |
+| `options` | `Object` | Includes `format` which will format the number accordingly. |
