@@ -189,9 +189,10 @@ const price = renderPriceFromPriceRange(priceRange)
 ```
 
 #### Parameters
-| Parameter    | Type     | Description                                  |
-|:-------------|:---------|:---------------------------------------------|
-| `priceRange` | `Object` | A priceRange object from the Storefront API. |
+| Parameter    | Type     | Description                                                       |
+|:-------------|:---------|:------------------------------------------------------------------|
+| `priceRange` | `Object` | A priceRange object from the Storefront API.                      |
+| `options`    | `Object` | Options object same as `formatPrice` utility (See 'formatPrice'). |
 
 
 ### formatPrice
@@ -240,7 +241,7 @@ const formattedPriceWithOptions = formatPrice(price, options)
 ```
 
 #### Parameters
-| Parameter | Type     | Description                                                 |
-|:----------|:---------|:------------------------------------------------------------|
-| `price`   | `Object` | A price object from the Storefront API.                     |
-| `options` | `Object` | Includes `format` which will format the number accordingly. |
+| Parameter | Type     | Description                                                                                                                                                     |
+|:----------|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `price`   | `Object` | A price object from the Storefront API.                                                                                                                         |
+| `options` | `Object` | Includes `format` which will format the number accordingly. Includes `showCurrency` which defaults to `true`, if set to `false`, currency will not be rendered. |

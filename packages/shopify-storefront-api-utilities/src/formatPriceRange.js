@@ -1,12 +1,12 @@
 import formatPrice from './formatPrice'
 
-export default priceRange => {
+export default (priceRange, options = {}) => {
 	const { maxVariantPrice, minVariantPrice } = priceRange
 	const amountsMatch = minVariantPrice.amount === maxVariantPrice.amount
 	const currencyCodesMatch = minVariantPrice.currencyCode === maxVariantPrice.currencyCode
-	const minPriceWithCurrency = formatPrice(minVariantPrice.amount, minVariantPrice.currencyCode)
-	const maxPriceWithCurrency = formatPrice(maxVariantPrice.amount, maxVariantPrice.currencyCode)
-	const maxPrice = formatPrice(maxVariantPrice.amount)
+	const minPriceWithCurrency = formatPrice(minVariantPrice, options)
+	const maxPriceWithCurrency = formatPrice(maxVariantPrice, options)
+	const maxPrice = formatPrice(maxVariantPrice, { ...options, showCurrency: false })
 	if (amountsMatch && currencyCodesMatch) {
 		return minPriceWithCurrency
 	}

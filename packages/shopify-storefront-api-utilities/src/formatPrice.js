@@ -5,9 +5,12 @@ export default (price = {}, options = {}) => {
 		amount,
 		currencyCode,
 	} = price
-	const { format = '$0,0.00' } = options
+	const {
+		format = '$0,0.00',
+		showCurrency = true,
+	} = options
 
-	const formattedCurrencyCode = currencyCode ? `${currencyCode} ` : ''
+	const formattedCurrencyCode = (currencyCode && showCurrency) ? `${currencyCode} ` : ''
 	const formattedAmount = numeral(amount).format(format)
 
 	return `${formattedCurrencyCode}${formattedAmount}`
