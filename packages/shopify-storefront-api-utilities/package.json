@@ -46,6 +46,8 @@
   },
   "homepage": "https://github.com/sb-m/shopify-storefront-utilities#readme",
   "dependencies": {
-    "numeral": "^2.0.6"
+    "numeral": "^2.0.6",
+    "react": "^17.0.1",
+    "shopify-gid": "^1.0.1"
   }
 }
