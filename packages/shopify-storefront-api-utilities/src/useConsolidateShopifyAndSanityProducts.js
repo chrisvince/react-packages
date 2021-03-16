@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { dissoc, mergeWithKey, pipe, is } from 'ramda'
+import { dissoc, is, mergeWithKey, pipe } from 'ramda'
 import { decode } from 'shopify-gid'
 import formatPriceRange from './formatPriceRange'
 
