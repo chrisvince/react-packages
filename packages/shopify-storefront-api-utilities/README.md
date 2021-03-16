@@ -245,3 +245,74 @@ const formattedPriceWithOptions = formatPrice(price, options)
 |:----------|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `price`   | `Object` | A price object from the Storefront API.                                                                                                                         |
 | `options` | `Object` | Includes `format` which will format the number accordingly. Includes `showCurrency` which defaults to `true`, if set to `false`, currency will not be rendered. |
+
+
+### splitProductsByOption
+Splits a product and its variants by a specific option. Each value of an option will be split into
+different objects. These objects will include a product object, and a variants array which will
+contain all the variants with the same object value. Because the data is split based on option
+value, and since there can be multiple object values per product, there will be duplicate products
+in the cases where there are more than one object value. This can be used for PLPs where separate
+list items need to be shown for each option value (for example, a product in all the colors
+offered).
+
+#### Minimum GraphQL Data Requirement
+```
+	query {
+		allShopifyProduct {
+			nodes {
+				handle
+				options {
+					name
+					values
+				}
+				variants {
+					selectedOptions {
+						value
+						name
+					}
+				}
+			}
+		}
+	}
+```
+
+#### Syntax
+`const options = splitProductsByOption(optionName, products)`
+
+#### Usage
+```
+const options = splitProductsByOption('Color', products)
+// returns:
+// 	[
+// 		{
+// 			optionValue: 'Black',
+// 			to: '/shop/dress?Color=Black
+// 			product: {
+// 				handle: 'dress',
+// 				// other product data passed to fn for 'dress'
+// 			},
+// 			variants: [
+// 				// 'dress' variants where Color === 'Black'
+// 			],
+// 		},
+// 		{
+// 			optionValue: 'Red',
+// 			to: '/shop/dress?Color=Red
+// 			product: {
+// 				handle: 'dress',
+// 				// other product data passed to fn for 'dress'
+// 			},
+// 			variants: [
+// 				// 'dress' variants where Color === 'Red'
+// 			],
+// 		},
+// 	]
+```
+
+#### Parameters
+| Parameter    | Type     | Description                                                                                                                       |
+|:-------------|:---------|:----------------------------------------------------------------------------------------------------------------------------------|
+| `optionName` | `String` | The option that the products should be split by.                                                                                  |
+| `products`   | `Object` | An array of objects from the Storefront API.                                                                                      |
+| `options`    | `Object` | An object of options. Includes `productPagePathPrefix` which will change the prefix to the `to` data point (defaults to '/shop'). |

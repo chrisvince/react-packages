@@ -4,6 +4,7 @@ import formatPriceRange from './formatPriceRange'
 import getSelectedOptionsFromUrlParams from './getSelectedOptionsFromUrlParams'
 import productFromProductId from './productFromProductId'
 import productFromVariantId from './productFromVariantId'
+import splitProductsByOption from './splitProductsByOption'
 
 export {
 	filterUniqueVariantsByOption,
@@ -12,4 +13,5 @@ export {
 	getSelectedOptionsFromUrlParams,
 	productFromProductId,
 	productFromVariantId,
+	splitProductsByOption,
 }
