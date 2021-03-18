@@ -1,11 +1,8 @@
 import { assoc } from 'ramda'
 
 const getUrlParam = optionName => {
-	if (typeof window === 'undefined') {
-		return null
-	}
-	const urlParams = new URLSearchParams(window.location.search)
-	return urlParams.get(optionName)
+	if (typeof window === 'undefined') return null
+	return new URLSearchParams(window.location.search).get(optionName)
 }
 
 export default options => options.reduce((acc, option) => {
