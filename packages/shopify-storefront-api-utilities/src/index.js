@@ -5,7 +5,7 @@ import getSelectedOptionsFromUrlParams from './getSelectedOptionsFromUrlParams'
 import productFromProductId from './productFromProductId'
 import productFromVariantId from './productFromVariantId'
 import splitProductsByOption from './splitProductsByOption'
-import useConsolidateShopifyAndSanityProducts from './useConsolidateShopifyAndSanityProducts'
+import useShopifySanityProductConsolidater from './useShopifySanityProductConsolidater'
 
 export {
 	filterUniqueVariantsByOption,
@@ -15,5 +15,5 @@ export {
 	productFromProductId,
 	productFromVariantId,
 	splitProductsByOption,
-	useConsolidateShopifyAndSanityProducts,
+	useShopifySanityProductConsolidater,
 }

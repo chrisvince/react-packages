@@ -55,7 +55,7 @@ const renderOptionQueryString = selectedOptions => (
 	selectedOptions.map(({ name, value }) => `${name}=${value}`).join('&')
 )
 
-const useConsolidateShopifyAndSanityProducts = props => {
+const useShopifySanityProductConsolidater = props => {
 	const {
 		allShopifyProduct: { nodes: shopifyProducts },
 		allSanityProduct: { nodes: sanityProducts },
@@ -142,4 +142,4 @@ const useConsolidateShopifyAndSanityProducts = props => {
 	return findVariantResult
 }
 
-export default useConsolidateShopifyAndSanityProducts
+export default useShopifySanityProductConsolidater
