@@ -1,5 +1,5 @@
 import { assoc } from 'ramda'
 
-export default selectedOptions.reduce((accumulator, { name, value }) => (
+export default selectedOptions => selectedOptions.reduce((accumulator, { name, value }) => (
 	assoc(name, value, accumulator)
 ), {})
