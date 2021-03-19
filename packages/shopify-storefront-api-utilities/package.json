@@ -1,6 +1,6 @@
 {
   "name": "@sb-m/shopify-storefront-api-utilities",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Utilities for handling Shopify data sourced from the Shopify Storefront API",
   "author": "sb-m <sb-m.com>",
   "publishConfig": {
