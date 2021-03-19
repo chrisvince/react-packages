@@ -3,6 +3,7 @@ import findVariantFromOptions from './findVariantFromOptions'
 import formatPrice from './formatPrice'
 import formatPriceRange from './formatPriceRange'
 import getSelectedOptionsFromUrlParams from './getSelectedOptionsFromUrlParams'
+import getUrlParamsAsObject from './getUrlParamsAsObject'
 import productFromProductId from './productFromProductId'
 import productFromVariantId from './productFromVariantId'
 import selectedOptionsToObject from './selectedOptionsToObject'
@@ -15,6 +16,7 @@ export {
 	formatPrice,
 	formatPriceRange,
 	getSelectedOptionsFromUrlParams,
+	getUrlParamsAsObject,
 	productFromProductId,
 	productFromVariantId,
 	selectedOptionsToObject,
