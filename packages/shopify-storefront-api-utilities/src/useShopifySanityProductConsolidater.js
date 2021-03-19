@@ -129,10 +129,10 @@ const useShopifySanityProductConsolidater = props => {
 			return sortedProducts
 		}
 		const product = sortedProducts
-		const foundVariant = product.variants.find((variant, ...restParams) => {
-			const variantWithProduct = assoc('product', product, variant)
-			return findVariant(variantWithProduct, ...restParams)
-		})
+		const variantsWithNestedProducts = product.variants.map(variant => (
+			assoc('product', product, variant)
+		))
+		const foundVariant = variantsWithNestedProducts.find(findVariant)
 		if (!foundVariant) {
 			// eslint-disable-next-line no-console
 			console.error('No variant matches query passed in `findVariant`.')
