@@ -141,8 +141,12 @@ const useShopifySanityProductConsolidater = props => {
 			console.error('No variant matches query passed in `findVariant`.')
 			return sortedProducts
 		}
-		const productWithoutVariants = dissoc('variants', sortedProducts)
-		const productWithVariant = { ...productWithoutVariants, variant: foundVariant }
+		const productWithoutVariants = dissoc('variants', product)
+		const variantWithoutProduct = dissoc('product', foundVariant)
+		const productWithVariant = {
+			...productWithoutVariants,
+			variant: variantWithoutProduct,
+		}
 		return productWithVariant
 	}, [ findVariant, sortedProducts ])
 
