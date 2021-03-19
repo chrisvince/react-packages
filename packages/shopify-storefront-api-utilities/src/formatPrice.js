@@ -2,7 +2,7 @@ import numeral from 'numeral'
 
 export default (price = {}, options = {}) => {
 	if (!price) {
-		return price
+		return undefined
 	}
 	const {
 		amount,
