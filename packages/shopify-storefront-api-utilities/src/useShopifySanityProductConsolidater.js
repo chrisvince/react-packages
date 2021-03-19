@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { dissoc, is, mergeWithKey, pipe } from 'ramda'
+import { assoc, dissoc, is, mergeWithKey, pipe } from 'ramda'
 import { decode } from 'shopify-gid'
 import formatPriceRange from './formatPriceRange'
 
@@ -128,7 +128,11 @@ const useShopifySanityProductConsolidater = props => {
 		if (!sortedProducts || is(Array, sortedProducts) || !findVariant) {
 			return sortedProducts
 		}
-		const foundVariant = sortedProducts.variants.find(findVariant)
+		const product = sortedProducts
+		const foundVariant = product.variants.find((variant, ...restParams) => {
+			const variantWithProduct = assoc('product', product, variant)
+			return findVariant(variantWithProduct, ...restParams)
+		})
 		if (!foundVariant) {
 			// eslint-disable-next-line no-console
 			console.error('No variant matches query passed in `findVariant`.')

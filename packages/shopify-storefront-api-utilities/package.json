@@ -1,6 +1,6 @@
 {
   "name": "@sb-m/shopify-storefront-api-utilities",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Utilities for handling Shopify data sourced from the Shopify Storefront API",
   "author": "sb-m <sb-m.com>",
   "publishConfig": {
@@ -23,7 +23,7 @@
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "@sb-m/eslint-config": "^1.1.8",
-    "rollup": "^2.41.5",
+    "rollup": "^2.42.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2"
