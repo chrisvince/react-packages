@@ -51,6 +51,11 @@ const mergeProducts = (shopifyProducts, sanityProducts) => shopifyProducts.map(s
 	return newMergedProducts
 })
 
+const getVariantsWithNestedProductFromProduct = product => product.variants.map(variant => {
+	const productWithoutVariants = dissoc('variants', product)
+	return assoc('product', productWithoutVariants, variant)
+})
+
 const renderOptionQueryString = selectedOptions => (
 	selectedOptions.map(({ name, value }) => `${name}=${value}`).join('&')
 )
@@ -129,9 +134,7 @@ const useShopifySanityProductConsolidater = props => {
 			return sortedProducts
 		}
 		const product = sortedProducts
-		const variantsWithNestedProducts = product.variants.map(variant => (
-			assoc('product', product, variant)
-		))
+		const variantsWithNestedProducts = getVariantsWithNestedProductFromProduct(product)
 		const foundVariant = variantsWithNestedProducts.find(findVariant)
 		if (!foundVariant) {
 			// eslint-disable-next-line no-console
