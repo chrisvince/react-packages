@@ -1,4 +1,5 @@
 import filterUniqueVariantsByOption from './filterUniqueVariantsByOption'
+import findVariantFromOptions from './findVariantFromOptions'
 import formatPrice from './formatPrice'
 import formatPriceRange from './formatPriceRange'
 import getSelectedOptionsFromUrlParams from './getSelectedOptionsFromUrlParams'
@@ -9,6 +10,7 @@ import useShopifySanityProductConsolidater from './useShopifySanityProductConsol
 
 export {
 	filterUniqueVariantsByOption,
+	findVariantFromOptions,
 	formatPrice,
 	formatPriceRange,
 	getSelectedOptionsFromUrlParams,
