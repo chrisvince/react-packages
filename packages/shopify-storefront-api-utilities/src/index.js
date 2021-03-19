@@ -5,6 +5,7 @@ import formatPriceRange from './formatPriceRange'
 import getSelectedOptionsFromUrlParams from './getSelectedOptionsFromUrlParams'
 import productFromProductId from './productFromProductId'
 import productFromVariantId from './productFromVariantId'
+import selectedOptionsToObject from './selectedOptionsToObject'
 import splitProductsByOption from './splitProductsByOption'
 import useShopifySanityProductConsolidater from './useShopifySanityProductConsolidater'
 
@@ -16,6 +17,7 @@ export {
 	getSelectedOptionsFromUrlParams,
 	productFromProductId,
 	productFromVariantId,
+	selectedOptionsToObject,
 	splitProductsByOption,
 	useShopifySanityProductConsolidater,
 }
