@@ -64,7 +64,7 @@ const useShopifySanityProductConsolidater = props => {
 	const {
 		allShopifyProduct: { nodes: shopifyProducts },
 		allSanityProduct: { nodes: sanityProducts },
-		liveShopifyProduct,
+		liveShopifyData,
 		filter,
 		find,
 		findVariant,
@@ -77,7 +77,7 @@ const useShopifySanityProductConsolidater = props => {
 		} = {},
 	} = props
 
-	const productByHandle = prop('productByHandle', liveShopifyProduct)
+	const productByHandle = prop('productByHandle', liveShopifyData)
 
 	const mergedProducts = useMemo(() => (
 		mergeProducts(shopifyProducts, sanityProducts)
@@ -148,14 +148,14 @@ const useShopifySanityProductConsolidater = props => {
 			const matchingLiveVariant = liveVariants.find(liveVariant => (
 				liveVariant.decodedShopifyId === sortedProduct.decodedShopifyId
 			))
-			const strippedLiveVariant = omit([ 'decodedShopifyId', 'id' ], matchingLiveVariant)
+			const strippedLiveVariant = omit([ 'decodedShopifyId', 'id', '__typename' ], matchingLiveVariant)
 			return {
 				...sortedProduct,
 				...strippedLiveVariant,
 			}
 		})
 
-		const strippedLiveProduct = dissoc('variants', productByHandle)
+		const strippedLiveProduct = omit([ 'variants', '__typename' ], productByHandle)
 
 		return {
 			...sortedProducts,
