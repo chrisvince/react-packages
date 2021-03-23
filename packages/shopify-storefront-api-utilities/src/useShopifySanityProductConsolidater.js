@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { assoc, dissoc, is, mergeWithKey, pipe } from 'ramda'
+import { assoc, dissoc, is, mergeWithKey, omit, pipe, prop } from 'ramda'
 import { decode } from 'shopify-gid'
 import formatPriceRange from './formatPriceRange'
 
@@ -64,6 +64,7 @@ const useShopifySanityProductConsolidater = props => {
 	const {
 		allShopifyProduct: { nodes: shopifyProducts },
 		allSanityProduct: { nodes: sanityProducts },
+		liveShopifyProduct,
 		filter,
 		find,
 		findVariant,
@@ -75,6 +76,8 @@ const useShopifySanityProductConsolidater = props => {
 			),
 		} = {},
 	} = props
+
+	const productByHandle = prop('productByHandle', liveShopifyProduct)
 
 	const mergedProducts = useMemo(() => (
 		mergeProducts(shopifyProducts, sanityProducts)
@@ -129,17 +132,49 @@ const useShopifySanityProductConsolidater = props => {
 		return filteredProducts.sort(sort)
 	}, [ filteredProducts, sort ])
 
-	const findVariantResult = useMemo(() => {
-		if (!sortedProducts || is(Array, sortedProducts) || !findVariant) {
+	const withProductByHandle = useMemo(() => {
+		if (!productByHandle || is(Array, sortedProducts)) {
 			return sortedProducts
 		}
-		const product = sortedProducts
+		const liveVariants = productByHandle.variants.edges.map(liveVariantEdge => {
+			const { node } = liveVariantEdge
+			const decodedShopifyId = decode(node.id).id
+			return {
+				...node,
+				decodedShopifyId,
+			}
+		})
+		const updatedVariants = sortedProducts.variants.map(sortedProduct => {
+			const matchingLiveVariant = liveVariants.find(liveVariant => (
+				liveVariant.decodedShopifyId === sortedProduct.decodedShopifyId
+			))
+			const strippedLiveVariant = omit([ 'decodedShopifyId', 'id' ], matchingLiveVariant)
+			return {
+				...sortedProduct,
+				...strippedLiveVariant,
+			}
+		})
+
+		const strippedLiveProduct = dissoc('variants', productByHandle)
+
+		return {
+			...sortedProducts,
+			...strippedLiveProduct,
+			variants: updatedVariants,
+		}
+	}, [ productByHandle, sortedProducts ])
+
+	const findVariantResult = useMemo(() => {
+		if (!withProductByHandle || is(Array, withProductByHandle) || !findVariant) {
+			return withProductByHandle
+		}
+		const product = withProductByHandle
 		const variantsWithNestedProducts = getVariantsWithNestedProductFromProduct(product)
 		const foundVariant = variantsWithNestedProducts.find(findVariant)
 		if (!foundVariant) {
 			// eslint-disable-next-line no-console
 			console.error('No variant matches query passed in `findVariant`.')
-			return sortedProducts
+			return withProductByHandle
 		}
 		const productWithoutVariants = dissoc('variants', product)
 		const variantWithoutProduct = dissoc('product', foundVariant)
@@ -148,7 +183,7 @@ const useShopifySanityProductConsolidater = props => {
 			variant: variantWithoutProduct,
 		}
 		return productWithVariant
-	}, [ findVariant, sortedProducts ])
+	}, [ findVariant, withProductByHandle ])
 
 	return findVariantResult
 }
