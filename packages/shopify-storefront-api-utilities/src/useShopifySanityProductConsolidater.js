@@ -62,8 +62,8 @@ const renderOptionQueryString = selectedOptions => (
 
 const useShopifySanityProductConsolidater = props => {
 	const {
-		allShopifyProduct: { nodes: shopifyProducts },
-		allSanityProduct: { nodes: sanityProducts },
+		allShopifyProduct,
+		allSanityProduct,
 		liveShopifyData,
 		filter,
 		find,
@@ -77,11 +77,22 @@ const useShopifySanityProductConsolidater = props => {
 		} = {},
 	} = props
 
+	if (!allShopifyProduct) {
+		console.error('`allShopifyProduct` must be set.')
+		return
+	}
+
+	const { nodes: shopifyProducts } = allShopifyProduct
+	const { nodes: sanityProducts } = allSanityProduct || {}
+
 	const productByHandle = prop('productByHandle', liveShopifyData)
 
-	const mergedProducts = useMemo(() => (
-		mergeProducts(shopifyProducts, sanityProducts)
-	), [ sanityProducts, shopifyProducts ])
+	const mergedProducts = useMemo(() => {
+		if (!sanityProducts) {
+			return shopifyProducts
+		}
+		return mergeProducts(shopifyProducts, sanityProducts)
+	}, [ sanityProducts, shopifyProducts ])
 
 	const manipulatedProducts = useMemo(() => mergedProducts.map(shopifyProduct => {
 		const manipulatedVariants = shopifyProduct.variants.map(variant => {
