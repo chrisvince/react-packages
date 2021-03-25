@@ -5,16 +5,10 @@ const getUrlParam = optionName => {
 	return new URLSearchParams(window.location.search).get(optionName)
 }
 
-export default options => {
-	if (!options) {
-		const searchParams = new URLSearchParams(window.location.search).entries()
-		return Object.fromEntries(searchParams)
-	}
-	return options.reduce((acc, option) => {
-		const matchingUrlParam = getUrlParam(option.name)
-		const matchingUrlParamIsOption = matchingUrlParam && option.values.includes(matchingUrlParam)
-		const defaultOption = option.values[0]
-		const value = matchingUrlParamIsOption ? matchingUrlParam : defaultOption
-		return assoc(option.name, value, acc)
-	}, {})
-}
+export default options => options.reduce((acc, option) => {
+	const matchingUrlParam = getUrlParam(option.name)
+	const matchingUrlParamIsOption = matchingUrlParam && option.values.includes(matchingUrlParam)
+	const defaultOption = option.values[0]
+	const value = matchingUrlParamIsOption ? matchingUrlParam : defaultOption
+	return assoc(option.name, value, acc)
+}, {})
