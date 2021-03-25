@@ -85,7 +85,7 @@ const useShopifyProductCMSMerger = props => {
 	const { nodes: shopifyProducts } = allShopifyProduct
 	const { nodes: sanityProducts } = allSanityProduct || {}
 
-	const productByHandle = prop('productByHandle', liveShopifyData)
+	const liveShopifyProducts = prop('productByHandle', liveShopifyData)
 
 	const mergedProducts = useMemo(() => {
 		if (!sanityProducts) {
@@ -151,11 +151,11 @@ const useShopifyProductCMSMerger = props => {
 		return filteredProducts.sort(sort)
 	}, [ filteredProducts, sort ])
 
-	const withProductByHandle = useMemo(() => {
-		if (!productByHandle || is(Array, sortedProducts)) {
+	const withLiveShopifyProducts = useMemo(() => {
+		if (!liveShopifyProducts || is(Array, sortedProducts)) {
 			return sortedProducts
 		}
-		const liveVariants = productByHandle.variants.edges.map(liveVariantEdge => {
+		const liveVariants = liveShopifyProducts.variants.edges.map(liveVariantEdge => {
 			const { node } = liveVariantEdge
 			const decodedShopifyId = decode(node.id).id
 			return {
@@ -174,26 +174,26 @@ const useShopifyProductCMSMerger = props => {
 			}
 		})
 
-		const strippedLiveProduct = omit([ 'variants', '__typename' ], productByHandle)
+		const strippedLiveProduct = omit([ 'variants', '__typename' ], liveShopifyProducts)
 
 		return {
 			...sortedProducts,
 			...strippedLiveProduct,
 			variants: updatedVariants,
 		}
-	}, [ productByHandle, sortedProducts ])
+	}, [ liveShopifyProducts, sortedProducts ])
 
 	const findVariantResult = useMemo(() => {
-		if (!withProductByHandle || is(Array, withProductByHandle) || !findVariant) {
-			return withProductByHandle
+		if (!withLiveShopifyProducts || is(Array, withLiveShopifyProducts) || !findVariant) {
+			return withLiveShopifyProducts
 		}
-		const product = withProductByHandle
+		const product = withLiveShopifyProducts
 		const variantsWithNestedProducts = getVariantsWithNestedProductFromProduct(product)
 		const foundVariant = variantsWithNestedProducts.find(findVariant)
 		if (!foundVariant) {
 			// eslint-disable-next-line no-console
 			console.error('No variant matches query passed in `findVariant`.')
-			return withProductByHandle
+			return withLiveShopifyProducts
 		}
 		const productWithoutVariants = dissoc('variants', product)
 		const variantWithoutProduct = dissoc('product', foundVariant)
@@ -202,7 +202,7 @@ const useShopifyProductCMSMerger = props => {
 			variant: variantWithoutProduct,
 		}
 		return productWithVariant
-	}, [ findVariant, withProductByHandle ])
+	}, [ findVariant, withLiveShopifyProducts ])
 
 	return findVariantResult
 }
