@@ -1,4 +1,4 @@
-import { dissoc } from 'ramda'
+import { append, concat, dissoc } from 'ramda'
 
 export default (optionName, products, config = {}) => {
 	const {
@@ -12,18 +12,16 @@ export default (optionName, products, config = {}) => {
 
 		if (!matchingOptions) {
 			const to = `${productPagePathPrefix}/${handle}`
-			return [
-				...accumulator,
-				{
-					optionValue: undefined,
-					product: productWithoutVariants,
-					to,
-					variants,
-				},
-			]
+			const newOption = {
+				optionValue: undefined,
+				product: productWithoutVariants,
+				to,
+				variants,
+			}
+			return append(newOption, accumulator)
 		}
 
-		const withOptions = matchingOptions.values.map(optionValue => {
+		const newOptions = matchingOptions.values.map(optionValue => {
 			const matchingVariants = variants.filter(variant => {
 				const { selectedOptions } = variant
 				const currentOption = selectedOptions.find(({ name }) => name === optionName)
@@ -41,10 +39,7 @@ export default (optionName, products, config = {}) => {
 				variants: matchingVariants,
 			}
 		})
-		return [
-			...accumulator,
-			...withOptions,
-		]
+		return concat(accumulator, newOptions)
 	}, [])
 
 	return productsWithOptions
