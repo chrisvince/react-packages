@@ -60,7 +60,7 @@ const renderOptionQueryString = selectedOptions => (
 	selectedOptions.map(({ name, value }) => `${name}=${value}`).join('&')
 )
 
-const useShopifySanityProductConsolidater = props => {
+const useShopifyProductCMSMerger = props => {
 	const {
 		allShopifyProduct,
 		allSanityProduct,
@@ -78,8 +78,8 @@ const useShopifySanityProductConsolidater = props => {
 	} = props
 
 	if (!allShopifyProduct) {
+		// eslint-disable-next-line no-console
 		console.error('`allShopifyProduct` must be set.')
-		return
 	}
 
 	const { nodes: shopifyProducts } = allShopifyProduct
@@ -95,39 +95,47 @@ const useShopifySanityProductConsolidater = props => {
 	}, [ sanityProducts, shopifyProducts ])
 
 	const manipulatedProducts = useMemo(() => mergedProducts.map(shopifyProduct => {
-		const manipulatedVariants = shopifyProduct.variants.map(variant => {
-			const renderVariantReturn = pipe(
-				x => (shopifyProduct.handle && variant.selectedOptions) ? {
-					...x,
-					linkTo: renderProductVariantLinkTo(
-						shopifyProduct.handle,
-						variant.selectedOptions,
-					),
-				} : x,
-				x => variant.shopifyId ? {
-					...x,
-					decodedShopifyId: decode(variant.shopifyId).id,
-				} : x,
-			)
-			return renderVariantReturn(variant)
-		})
+		const buildNewProductVariants = variants => variants.map(pipe(
+			variant => (
+				(shopifyProduct.handle && variant.selectedOptions) ? (
+					assoc(
+						'linkTo',
+						renderProductVariantLinkTo(shopifyProduct.handle, variant.selectedOptions),
+						variant,
+					)
+				) : variant
+			),
+			variant => (
+				variant.shopifyId ? (
+					assoc('decodedShopifyId', decode(variant.shopifyId).id, variant)
+				) : variant
+			),
+		))
 
-		const renderProductReturn = pipe(
-			x => shopifyProduct.handle ? {
-				...x,
-				linkTo: renderProductLinkTo(shopifyProduct.handle),
-			} : x,
-			x => shopifyProduct.priceRange ? {
-				...x,
-				formattedPriceRange: formatPriceRange(shopifyProduct.priceRange),
-			} : x,
-			x => shopifyProduct.shopifyId ? {
-				...x,
-				decodedShopifyId: decode(shopifyProduct.shopifyId).id,
-			} : x,
-			x => ({ ...x, variants: manipulatedVariants }),
+		const buildNewProducts = pipe(
+			x => (
+				shopifyProduct.handle ? (
+					assoc('linkTo', renderProductLinkTo(shopifyProduct.handle), x)
+				) : x
+			),
+			x => (
+				shopifyProduct.priceRange ? (
+					assoc('formattedPriceRange', formatPriceRange(shopifyProduct.priceRange), x)
+				) : x
+			),
+			x => (
+				shopifyProduct.shopifyId ? (
+					assoc('decodedShopifyId', decode(shopifyProduct.shopifyId).id, x)
+				) : x
+			),
+			x => (
+				shopifyProduct.variants ? (
+					assoc('variants', buildNewProductVariants(shopifyProduct.variants), x)
+				) : x
+			),
 		)
-		return renderProductReturn(shopifyProduct)
+
+		return buildNewProducts(shopifyProduct)
 	}), [ mergedProducts, renderProductLinkTo, renderProductVariantLinkTo ])
 
 	const filteredProducts = useMemo(() => {
@@ -199,4 +207,4 @@ const useShopifySanityProductConsolidater = props => {
 	return findVariantResult
 }
 
-export default useShopifySanityProductConsolidater
+export default useShopifyProductCMSMerger

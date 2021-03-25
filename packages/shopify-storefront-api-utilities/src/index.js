@@ -8,7 +8,7 @@ import productFromProductId from './productFromProductId'
 import productFromVariantId from './productFromVariantId'
 import selectedOptionsToObject from './selectedOptionsToObject'
 import splitProductsByOption from './splitProductsByOption'
-import useShopifySanityProductConsolidater from './useShopifySanityProductConsolidater'
+import useShopifyProductCMSMerger from './useShopifyProductCMSMerger'
 
 export {
 	filterUniqueVariantsByOption,
@@ -21,5 +21,5 @@ export {
 	productFromVariantId,
 	selectedOptionsToObject,
 	splitProductsByOption,
-	useShopifySanityProductConsolidater,
+	useShopifyProductCMSMerger,
 }
