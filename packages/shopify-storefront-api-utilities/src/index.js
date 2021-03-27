@@ -7,6 +7,7 @@ import getUrlParamsAsObject from './getUrlParamsAsObject'
 import productFromVariantId from './productFromVariantId'
 import selectedOptionsToObject from './selectedOptionsToObject'
 import splitProductsByOption from './splitProductsByOption'
+import usePDPAnalytics from './usePDPAnalytics'
 import useShopifyProductCMSMerger from './useShopifyProductCMSMerger'
 
 export {
@@ -19,5 +20,6 @@ export {
 	productFromVariantId,
 	selectedOptionsToObject,
 	splitProductsByOption,
+	usePDPAnalytics,
 	useShopifyProductCMSMerger,
 }
