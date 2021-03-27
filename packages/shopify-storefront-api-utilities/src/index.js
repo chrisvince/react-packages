@@ -9,7 +9,7 @@ import productFromVariantId from './productFromVariantId'
 import selectedOptionsToObject from './selectedOptionsToObject'
 import splitProductsByOption from './splitProductsByOption'
 import usePDPAnalytics from './usePDPAnalytics'
-import useShopifyProductCMSMerger from './useShopifyProductCMSMerger'
+import useShopifyData from './useShopifyData'
 
 export {
 	filterUniqueVariantsByOption,
@@ -23,5 +23,5 @@ export {
 	selectedOptionsToObject,
 	splitProductsByOption,
 	usePDPAnalytics,
-	useShopifyProductCMSMerger,
+	useShopifyData,
 }

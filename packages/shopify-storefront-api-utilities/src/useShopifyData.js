@@ -3,6 +3,9 @@ import { assoc, dissoc, is, mergeWithKey, omit, pipe, prop } from 'ramda'
 import { decode } from 'shopify-gid'
 import formatPriceRange from './formatPriceRange'
 import selectedOptionsToObject from './selectedOptionsToObject'
+import { arrayOf, checkPropTypes, number, object, shape, string } from 'prop-types'
+
+const DISPLAY_NAME = 'useShopifyData'
 
 const PRODUCT_DATA_PREFERENCE = {
 	title: 'sanity',
@@ -61,7 +64,25 @@ const renderOptionQueryString = selectedOptions => (
 	selectedOptions.map(({ name, value }) => `${name}=${value}`).join('&')
 )
 
-const useShopifyProductCMSMerger = props => {
+const PROP_TYPES = {
+	allShopifyProduct: shape({
+		nodes: arrayOf(shape({
+			shopifyId: string.isRequired,
+		})).isRequired,
+	}).isRequired,
+	allSanityProduct: shape({
+		nodes: arrayOf(shape({
+			shopifyId: number.isRequired,
+		})).isRequired,
+	}),
+	liveShopifyData: shape({
+		productByHandle: object,
+	}),
+}
+
+const useShopifyData = props => {
+	checkPropTypes(PROP_TYPES, props, 'prop', DISPLAY_NAME)
+
 	const {
 		allShopifyProduct,
 		allSanityProduct,
@@ -77,11 +98,6 @@ const useShopifyProductCMSMerger = props => {
 			),
 		} = {},
 	} = props
-
-	if (!allShopifyProduct) {
-		// eslint-disable-next-line no-console
-		console.error('`allShopifyProduct` must be set.')
-	}
 
 	const { nodes: shopifyProducts } = allShopifyProduct
 	const { nodes: sanityProducts } = allSanityProduct || {}
@@ -217,4 +233,4 @@ const useShopifyProductCMSMerger = props => {
 	return findVariantResult
 }
 
-export default useShopifyProductCMSMerger
+export default useShopifyData
