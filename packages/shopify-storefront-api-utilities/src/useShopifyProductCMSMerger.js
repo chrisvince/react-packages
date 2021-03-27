@@ -96,7 +96,7 @@ const useShopifyProductCMSMerger = props => {
 	}, [ sanityProducts, shopifyProducts ])
 
 	const manipulatedProducts = useMemo(() => mergedProducts.map(shopifyProduct => {
-		const buildNewProductVariants = variants => variants.map(pipe(
+		const manipulateProductVariants = variants => variants.map(pipe(
 			variant => (
 				(shopifyProduct.handle && variant.selectedOptions) ? (
 					assoc(
@@ -122,7 +122,7 @@ const useShopifyProductCMSMerger = props => {
 			),
 		))
 
-		const buildNewProducts = pipe(
+		const manipulateProducts = pipe(
 			x => (
 				shopifyProduct.handle ? (
 					assoc('linkTo', renderProductLinkTo(shopifyProduct.handle), x)
@@ -140,12 +140,12 @@ const useShopifyProductCMSMerger = props => {
 			),
 			x => (
 				shopifyProduct.variants ? (
-					assoc('variants', buildNewProductVariants(shopifyProduct.variants), x)
+					assoc('variants', manipulateProductVariants(shopifyProduct.variants), x)
 				) : x
 			),
 		)
 
-		return buildNewProducts(shopifyProduct)
+		return manipulateProducts(shopifyProduct)
 	}), [ mergedProducts, renderProductLinkTo, renderProductVariantLinkTo ])
 
 	const filteredProducts = useMemo(() => {
