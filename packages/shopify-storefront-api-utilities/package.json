@@ -1,6 +1,6 @@
 {
   "name": "@sb-m/shopify-storefront-api-utilities",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Utilities for handling Shopify data sourced from the Shopify Storefront API",
   "author": "sb-m <sb-m.com>",
   "publishConfig": {
@@ -46,6 +46,7 @@
   },
   "homepage": "https://github.com/sb-m/shopify-storefront-utilities#readme",
   "dependencies": {
+    "@reach/router": "^1.3.4",
     "numeral": "^2.0.6",
     "prop-types": "^15.7.2",
     "ramda": "^0.27.1",

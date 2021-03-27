@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { assoc, dissoc, is, mergeWithKey, omit, pipe, prop } from 'ramda'
 import { decode } from 'shopify-gid'
 import formatPriceRange from './formatPriceRange'
+import selectedOptionsToObject from './selectedOptionsToObject'
 
 const PRODUCT_DATA_PREFERENCE = {
 	title: 'sanity',
@@ -108,6 +109,15 @@ const useShopifyProductCMSMerger = props => {
 			variant => (
 				variant.shopifyId ? (
 					assoc('decodedShopifyId', decode(variant.shopifyId).id, variant)
+				) : variant
+			),
+			variant => (
+				variant.selectedOptions ? (
+					assoc(
+						'selectedOptionsMap',
+						selectedOptionsToObject(variant.selectedOptions),
+						variant,
+					)
 				) : variant
 			),
 		))
