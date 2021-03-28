@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { assoc, dissoc, is, mergeWithKey, omit, pipe, path } from 'ramda'
 import { decode } from 'shopify-gid'
 import { arrayOf, checkPropTypes, number, object, shape, string } from 'prop-types'
@@ -40,20 +40,26 @@ const handleDuplicateProductDataPoint = (key, shopify, sanity) => {
 	return preference === 'shopify' ? shopify : sanity
 }
 
-const mergeProducts = (shopifyProducts, sanityProducts) => shopifyProducts.map(shopifyProduct => {
-	const decodedShopifyId = decode(shopifyProduct.shopifyId).id
-	const sanityProduct = sanityProducts.find(x => x.shopifyId.toString() === decodedShopifyId)
-	if (!sanityProduct) {
-		// eslint-disable-next-line no-console
-		console.error(`No sanityVariant found for Shopify ID: ${decodedShopifyId}`)
+const mergeSanityProductsWithShopifyProducts = (shopifyProducts, sanityProducts) => {
+	if (!sanityProducts) {
+		return shopifyProducts
 	}
-	const newMergedProducts = mergeWithKey(
-		handleDuplicateProductDataPoint,
-		shopifyProduct,
-		sanityProduct,
-	)
-	return newMergedProducts
-})
+
+	return shopifyProducts.map(shopifyProduct => {
+		const decodedShopifyId = decode(shopifyProduct.shopifyId).id
+		const sanityProduct = sanityProducts.find(x => x.shopifyId.toString() === decodedShopifyId)
+		if (!sanityProduct) {
+			// eslint-disable-next-line no-console
+			console.error(`No sanityVariant found for Shopify ID: ${decodedShopifyId}`)
+		}
+		const newMergedProducts = mergeWithKey(
+			handleDuplicateProductDataPoint,
+			shopifyProduct,
+			sanityProduct,
+		)
+		return newMergedProducts
+	})
+}
 
 const getVariantsWithNestedProductFromProduct = product => product.variants.map(variant => {
 	const productWithoutVariants = dissoc('variants', product)
@@ -89,7 +95,7 @@ const useShopifyData = props => {
 		liveShopifyData = {},
 		filter,
 		find,
-		findVariant,
+		findVariant: findVariantProp,
 		sort,
 		options: {
 			renderProductLinkTo = handle => `/shop/${handle}`,
@@ -103,20 +109,17 @@ const useShopifyData = props => {
 	const { nodes: sanityProducts } = allSanityProduct
 	const liveShopifyProduct = liveShopifyData.productByHandle
 
-	const mergedProducts = useMemo(() => {
-		if (!sanityProducts) {
-			return shopifyProducts
-		}
-		return mergeProducts(shopifyProducts, sanityProducts)
-	}, [ sanityProducts, shopifyProducts ])
+	const mergeSanityProducts = useCallback(products => (
+		mergeSanityProductsWithShopifyProducts(products, sanityProducts)
+	), [ sanityProducts ])
 
-	const manipulatedProducts = useMemo(() => mergedProducts.map(shopifyProduct => {
-		const manipulateProductVariants = variants => variants.map(pipe(
+	const manipulateProducts = useCallback(products => products.map(product => {
+		const handleProductVariants = variants => variants.map(pipe(
 			variant => (
-				(shopifyProduct.handle && variant.selectedOptions) ? (
+				(product.handle && variant.selectedOptions) ? (
 					assoc(
 						'linkTo',
-						renderProductVariantLinkTo(shopifyProduct.handle, variant.selectedOptions),
+						renderProductVariantLinkTo(product.handle, variant.selectedOptions),
 						variant,
 					)
 				) : variant
@@ -137,58 +140,58 @@ const useShopifyData = props => {
 			),
 		))
 
-		const manipulateProducts = pipe(
+		const handleProducts = pipe(
 			x => (
-				shopifyProduct.handle ? (
-					assoc('linkTo', renderProductLinkTo(shopifyProduct.handle), x)
+				product.handle ? (
+					assoc('linkTo', renderProductLinkTo(product.handle), x)
 				) : x
 			),
 			x => (
-				shopifyProduct.priceRange ? (
-					assoc('formattedPriceRange', formatPriceRange(shopifyProduct.priceRange), x)
+				product.priceRange ? (
+					assoc('formattedPriceRange', formatPriceRange(product.priceRange), x)
 				) : x
 			),
 			x => (
-				shopifyProduct.shopifyId ? (
-					assoc('decodedShopifyId', decode(shopifyProduct.shopifyId).id, x)
+				product.shopifyId ? (
+					assoc('decodedShopifyId', decode(product.shopifyId).id, x)
 				) : x
 			),
 			x => (
-				shopifyProduct.variants ? (
-					assoc('variants', manipulateProductVariants(shopifyProduct.variants), x)
+				product.variants ? (
+					assoc('variants', handleProductVariants(product.variants), x)
 				) : x
 			),
 		)
+		return handleProducts(product)
+	}), [ renderProductLinkTo, renderProductVariantLinkTo ])
 
-		return manipulateProducts(shopifyProduct)
-	}), [ mergedProducts, renderProductLinkTo, renderProductVariantLinkTo ])
+	const filterProducts = useCallback(products => {
+		if (find) return products.find(find)
+		if (filter) return products.filter(filter)
+		return products
+	}, [ filter, find ])
 
-	const filteredProducts = useMemo(() => {
-		if (find) return manipulatedProducts.find(find)
-		if (filter) return manipulatedProducts.filter(filter)
-		return manipulatedProducts
-	}, [ filter, find, manipulatedProducts ])
-
-	const sortedProducts = useMemo(() => {
-		if (!sort || !is(Array, filteredProducts)) {
-			return filteredProducts
+	const sortProducts = useCallback(input => {
+		if (!sort || !is(Array, input)) {
+			return input
 		}
-		return filteredProducts.sort(sort)
-	}, [ filteredProducts, sort ])
+		return input.sort(sort)
+	}, [ sort ])
 
-	const withLiveShopifyProduct = useMemo(() => {
-		if (!liveShopifyProduct || is(Array, sortedProducts)) {
-			return sortedProducts
+	const mergeLiveShopifyProduct = useCallback(input => {
+		if (!liveShopifyProduct || is(Array, input)) {
+			return input
 		}
-		if (!sortedProducts.variants) {
+		const product = input
+		if (!product.variants) {
 			const strippedLiveProduct = omit([ '__typename' ], liveShopifyProduct)
 			return {
-				...sortedProducts,
+				...product,
 				...strippedLiveProduct,
 			}
 		}
 
-		const updatedVariants = sortedProducts.variants.map(sortedVariant => {
+		const updatedVariants = product.variants.map(sortedVariant => {
 			const liveVariants = path([ 'variants', 'edges' ], liveShopifyProduct)
 			if (!liveVariants) {
 				return sortedVariant
@@ -202,23 +205,23 @@ const useShopifyData = props => {
 		const strippedLiveProduct = omit([ 'variants', '__typename' ], liveShopifyProduct)
 
 		return {
-			...sortedProducts,
+			...product,
 			...strippedLiveProduct,
 			variants: updatedVariants,
 		}
-	}, [ liveShopifyProduct, sortedProducts ])
+	}, [ liveShopifyProduct ])
 
-	const findVariantResult = useMemo(() => {
-		if (!withLiveShopifyProduct || is(Array, withLiveShopifyProduct) || !findVariant) {
-			return withLiveShopifyProduct
+	const findVariant = useCallback(input => {
+		if (!input || is(Array, input) || !findVariantProp) {
+			return input
 		}
-		const product = withLiveShopifyProduct
+		const product = input
 		const variantsWithNestedProducts = getVariantsWithNestedProductFromProduct(product)
-		const foundVariant = variantsWithNestedProducts.find(findVariant)
+		const foundVariant = variantsWithNestedProducts.find(findVariantProp)
 		if (!foundVariant) {
 			// eslint-disable-next-line no-console
 			console.error('No variant matches query passed in `findVariant`.')
-			return withLiveShopifyProduct
+			return product
 		}
 		const productWithoutVariants = dissoc('variants', product)
 		const variantWithoutProduct = dissoc('product', foundVariant)
@@ -227,9 +230,26 @@ const useShopifyData = props => {
 			variant: variantWithoutProduct,
 		}
 		return productWithVariant
-	}, [ findVariant, withLiveShopifyProduct ])
+	}, [ findVariantProp ])
 
-	return findVariantResult
+	return useMemo(() => (
+		pipe(
+			mergeSanityProducts,
+			manipulateProducts,
+			filterProducts,
+			sortProducts,
+			mergeLiveShopifyProduct,
+			findVariant,
+		)(shopifyProducts)
+	), [
+		filterProducts,
+		findVariant,
+		mergeLiveShopifyProduct,
+		manipulateProducts,
+		mergeSanityProducts,
+		shopifyProducts,
+		sortProducts,
+	])
 }
 
 export default useShopifyData
