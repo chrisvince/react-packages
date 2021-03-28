@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
-import { assoc, dissoc, is, mergeWithKey, omit, pipe, prop } from 'ramda'
+import { assoc, dissoc, is, mergeWithKey, omit, pipe, path } from 'ramda'
 import { decode } from 'shopify-gid'
+import { arrayOf, checkPropTypes, number, object, shape, string } from 'prop-types'
 import formatPriceRange from './formatPriceRange'
 import selectedOptionsToObject from './selectedOptionsToObject'
-import { arrayOf, checkPropTypes, number, object, shape, string } from 'prop-types'
 
 const DISPLAY_NAME = 'useShopifyData'
 
@@ -85,8 +85,8 @@ const useShopifyData = props => {
 
 	const {
 		allShopifyProduct,
-		allSanityProduct,
-		liveShopifyData,
+		allSanityProduct = {},
+		liveShopifyData = {},
 		filter,
 		find,
 		findVariant,
@@ -100,9 +100,8 @@ const useShopifyData = props => {
 	} = props
 
 	const { nodes: shopifyProducts } = allShopifyProduct
-	const { nodes: sanityProducts } = allSanityProduct || {}
-
-	const liveShopifyProducts = prop('productByHandle', liveShopifyData)
+	const { nodes: sanityProducts } = allSanityProduct
+	const liveShopifyProduct = liveShopifyData.productByHandle
 
 	const mergedProducts = useMemo(() => {
 		if (!sanityProducts) {
@@ -177,49 +176,49 @@ const useShopifyData = props => {
 		return filteredProducts.sort(sort)
 	}, [ filteredProducts, sort ])
 
-	const withLiveShopifyProducts = useMemo(() => {
-		if (!liveShopifyProducts || is(Array, sortedProducts)) {
+	const withLiveShopifyProduct = useMemo(() => {
+		if (!liveShopifyProduct || is(Array, sortedProducts)) {
 			return sortedProducts
 		}
-		const liveVariants = liveShopifyProducts.variants.edges.map(liveVariantEdge => {
-			const { node } = liveVariantEdge
-			const decodedShopifyId = decode(node.id).id
+		if (!sortedProducts.variants) {
+			const strippedLiveProduct = omit([ '__typename' ], liveShopifyProduct)
 			return {
-				...node,
-				decodedShopifyId,
+				...sortedProducts,
+				...strippedLiveProduct,
 			}
-		})
-		const updatedVariants = sortedProducts.variants.map(sortedProduct => {
-			const matchingLiveVariant = liveVariants.find(liveVariant => (
-				liveVariant.decodedShopifyId === sortedProduct.decodedShopifyId
-			))
-			const strippedLiveVariant = omit([ 'decodedShopifyId', 'id', '__typename' ], matchingLiveVariant)
-			return {
-				...sortedProduct,
-				...strippedLiveVariant,
-			}
-		})
+		}
 
-		const strippedLiveProduct = omit([ 'variants', '__typename' ], liveShopifyProducts)
+		const updatedVariants = sortedProducts.variants.map(sortedVariant => {
+			const liveVariants = path([ 'variants', 'edges' ], liveShopifyProduct)
+			if (!liveVariants) {
+				return sortedVariant
+			}
+			const { node: matchingLiveVariant } = liveVariants.find(({ node }) => (
+				decode(node.id).id === sortedVariant.decodedShopifyId
+			))
+			const strippedLiveVariant = omit([ 'id', '__typename' ], matchingLiveVariant)
+			return { ...sortedVariant, ...strippedLiveVariant }
+		})
+		const strippedLiveProduct = omit([ 'variants', '__typename' ], liveShopifyProduct)
 
 		return {
 			...sortedProducts,
 			...strippedLiveProduct,
 			variants: updatedVariants,
 		}
-	}, [ liveShopifyProducts, sortedProducts ])
+	}, [ liveShopifyProduct, sortedProducts ])
 
 	const findVariantResult = useMemo(() => {
-		if (!withLiveShopifyProducts || is(Array, withLiveShopifyProducts) || !findVariant) {
-			return withLiveShopifyProducts
+		if (!withLiveShopifyProduct || is(Array, withLiveShopifyProduct) || !findVariant) {
+			return withLiveShopifyProduct
 		}
-		const product = withLiveShopifyProducts
+		const product = withLiveShopifyProduct
 		const variantsWithNestedProducts = getVariantsWithNestedProductFromProduct(product)
 		const foundVariant = variantsWithNestedProducts.find(findVariant)
 		if (!foundVariant) {
 			// eslint-disable-next-line no-console
 			console.error('No variant matches query passed in `findVariant`.')
-			return withLiveShopifyProducts
+			return withLiveShopifyProduct
 		}
 		const productWithoutVariants = dissoc('variants', product)
 		const variantWithoutProduct = dissoc('product', foundVariant)
@@ -228,7 +227,7 @@ const useShopifyData = props => {
 			variant: variantWithoutProduct,
 		}
 		return productWithVariant
-	}, [ findVariant, withLiveShopifyProducts ])
+	}, [ findVariant, withLiveShopifyProduct ])
 
 	return findVariantResult
 }
