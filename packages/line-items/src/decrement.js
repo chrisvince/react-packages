@@ -1,5 +1,5 @@
 import { assoc, update, nth, dec, remove } from 'ramda'
-import findLineItemIndex from './utilities/findLineItemIndex'
+import { findLineItemIndex } from './utilities'
 
 export default (variantId, lineItems) => {
 	const existingLineItemIndex = findLineItemIndex(variantId, lineItems)
