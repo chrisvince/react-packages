@@ -1,5 +1,6 @@
-import { assoc, update, nth, dec, remove } from 'ramda'
+import { assoc, dec, nth, update } from 'ramda'
 import { findLineItemIndex } from './utilities'
+import remove from './remove'
 
 export default (variantId, lineItems) => {
 	const existingLineItemIndex = findLineItemIndex(variantId, lineItems)
@@ -12,7 +13,7 @@ export default (variantId, lineItems) => {
 	const newQuantity = dec(lineItemToChange.quantity)
 
 	if (newQuantity <= 0) {
-		const newLineItems = remove(existingLineItemIndex, 1, lineItems)
+		const newLineItems = remove(variantId, lineItems)
 		return newLineItems
 	}
 

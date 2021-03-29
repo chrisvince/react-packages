@@ -1,4 +1,4 @@
-import { assoc, inc, update, nth } from 'ramda'
+import { assoc, inc, nth, update } from 'ramda'
 import { findLineItemIndex } from './utilities'
 
 export default (variantId, lineItems) => {

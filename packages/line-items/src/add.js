@@ -1,4 +1,4 @@
-import { append, assoc, update, nth } from 'ramda'
+import { append, assoc, nth, update } from 'ramda'
 import { findLineItemIndex } from './utilities'
 
 export default (variantId, quantity = 1, lineItems) => {
