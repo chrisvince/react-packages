@@ -1,0 +1,58 @@
+{
+  "name": "@sb-m/use-shopify-data",
+  "version": "1.0.0",
+  "description": "A utility for merging, manipulating, and filtering Shopify data with other data sources.",
+  "author": "sb-m <sb-m.com>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "rollup -c --watch",
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.13.13",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@sb-m/eslint-config": "^1.1.8",
+    "rollup": "^2.44.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sb-m/shopify-storefront-utilities.git"
+  },
+  "keywords": [
+    "Shopify",
+    "Storefront",
+    "API",
+    "Merger",
+    "React",
+    "Gatsby",
+    "Hooks"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sb-m/use-shopify-data/issues"
+  },
+  "homepage": "https://github.com/sb-m/use-shopify-data#readme",
+  "dependencies": {
+    "@sb-m/shopify-storefront-api-utilities": "^3.1.0",
+    "ramda": "^0.27.1",
+    "shopify-gid": "^1.0.1"
+  }
+}
