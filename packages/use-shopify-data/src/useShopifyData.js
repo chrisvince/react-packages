@@ -54,16 +54,16 @@ const mergeVariant = (left, right) => {
 
 const searchForArray = pipe(
 	input => {
-		if (Array.isArray(input)) {
+		if (is(Array, input)) {
 			return input
 		}
-		if (Array.isArray(input.edges)) {
+		if (is(Array, input.edges)) {
 			return input.edges
 		}
 		return undefined
 	},
 	input => {
-		if (Array.isArray(input)) {
+		if (is(Array, input)) {
 			return input.map(item => {
 				if (item.node) {
 					return item.node
@@ -75,21 +75,41 @@ const searchForArray = pipe(
 	},
 )
 
+const findMatchingRight = (leftItem, rightItems) => rightItems.find(rightItem => pipe(
+	matches => {
+		if (matches) return true
+		if (leftItem.shopifyId === rightItem.id) {
+			return true
+		}
+		return false
+	},
+	matches => {
+		if (matches) return true
+		const leftDecodedShopifyId = decode(leftItem.shopifyId).id
+		if (
+			is(String, rightItem.shopifyId)
+			&& leftDecodedShopifyId === rightItem.shopifyId
+		) {
+			return true
+		}
+		if (
+			is(Number, rightItem.shopifyId)
+			&& leftDecodedShopifyId === rightItem.shopifyId.toString()
+		) {
+			return true
+		}
+		return false
+	},
+)(false))
+
 const mergeVariants = (left, right) => {
 	if (!right) {
 		return left
 	}
 	const rightData = searchForArray(right)
 	return left.map(leftItem => {
-		const rightItem = (
-			rightData.find(x => (
-				leftItem.id === x.shopifyId
-				|| x.shopifyId.toString() === decode(leftItem.shopifyId).id
-			))
-		)
-		if (!rightItem) {
-			return leftItem
-		}
+		const rightItem = findMatchingRight(leftItem, rightData)
+		if (!rightItem) return leftItem
 		return mergeVariant(
 			leftItem,
 			rightItem,
@@ -244,15 +264,14 @@ const mergeDataItem = (left, right) => {
 }
 
 const mergeDataHandler = data => (
-	data.reduce((left, right) => (
-		left.map(leftItem => {
-			const rightItem = right.find(item => (
-				leftItem.shopifyId === item.id
-				|| decode(leftItem.shopifyId).id === item.shopifyId.toString()
-			))
+	data.reduce((left, right) => {
+		if (!right) return left
+		return left.map(leftItem => {
+			const rightItem = findMatchingRight(leftItem, right)
+			if (!rightItem) return leftItem
 			return mergeDataItem(leftItem, rightItem)
 		})
-	))
+	})
 )
 
 const mergeDataSingleHandler = (data, dataSingle) => (
