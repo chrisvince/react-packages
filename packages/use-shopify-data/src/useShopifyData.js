@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { assoc, dissoc, is, mergeWithKey, omit, path, pipe, prop } from 'ramda'
 import { decode } from 'shopify-gid'
 import { arrayOf, checkPropTypes, func, object, shape } from 'prop-types'
@@ -356,14 +356,15 @@ const useShopifyData = props => {
 		return productWithVariant
 	}, [ findVariantProp ])
 
-	const processData = useCallback(data => pipe(
+	const processedData = useMemo(() => pipe(
 		mergeData,
 		manipulateData,
 		filtering,
 		sorting,
 		mergeDataSingle,
 		findVariant,
-	)(data), [
+	)(dataProp), [
+		dataProp,
 		filtering,
 		findVariant,
 		manipulateData,
@@ -372,7 +373,7 @@ const useShopifyData = props => {
 		sorting,
 	])
 
-	return processData(dataProp)
+	return processedData
 }
 
 export default useShopifyData
