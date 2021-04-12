@@ -1,9 +1,11 @@
 import context from './context'
-import reducer from './reducer'
 import defaultState from './defaultState'
+import reducer from './reducer'
+import useOverlayContext from './useOverlayContext'
 
 export {
 	context,
-	reducer,
 	defaultState,
+	reducer,
+	useOverlayContext,
 }

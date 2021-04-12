@@ -2,7 +2,7 @@ import React from 'react'
 import { object } from 'prop-types'
 
 import ContextProvider from '../ContextProvider'
-import RenderOverlay from '../RenderOverlay'
+import ContentAndOverlays from '../ContentAndOverlays'
 
 const DISPLAY_NAME = 'Provider'
 
@@ -12,9 +12,9 @@ const PROP_TYPES = {
 
 const Component = ({ children, components }) => (
 	<ContextProvider>
-		<RenderOverlay components={components}>
+		<ContentAndOverlays components={components}>
 			{children}
-		</RenderOverlay>
+		</ContentAndOverlays>
 	</ContextProvider>
 )
 

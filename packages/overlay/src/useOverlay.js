@@ -1,46 +1,43 @@
-import { useCallback, useContext, useMemo } from 'react'
-import { context } from './store'
+import { useCallback } from 'react'
+import { checkPropTypes, func, number, object, string } from 'prop-types'
+import useMountOverlay from './useMountOverlay'
+import createRequestCloseEvent from './utilities/createRequestCloseEvent'
 
-const useOverlay = (options = {}) => {
+const DISPLAY_NAME = 'useOverlay'
+
+const PROP_TYPES = {
+	component: string,
+	props: object,
+	zIndex: number,
+}
+
+const useShowOverlay = (options = {}) => {
+	checkPropTypes(PROP_TYPES, options, 'option', DISPLAY_NAME)
 	const {
-		closeOnBackdropClick,
-		zIndex: zIndexOption,
-		component: componentProp,
+		component,
 		props,
+		zIndex,
 	} = options
-	const { state, dispatch } = useContext(context)
-	const { show, component: componentState } = state
 
-	const setShow = useCallback(newShow => {
-		if (newShow && !componentProp) {
-			// eslint-disable-next-line no-console
-			console.error('The `component` option must be set.')
+	const closeEvent = createRequestCloseEvent(component)
+	const { setMounted, isMounted } = useMountOverlay({
+		component,
+		props,
+		zIndex,
+	})
+	
+	const setShow = useCallback(show => {
+		if (show) {
+			setMounted(true)
 			return
 		}
-
-		dispatch({
-			type: 'OVERLAY_SET_SHOW',
-			payload: {
-				show: newShow,
-				closeOnBackdropClick,
-				zIndex: zIndexOption,
-				component: componentProp,
-				props,
-			},
-		})
-	}, [ closeOnBackdropClick, componentProp, dispatch, props, zIndexOption ])
-
-	const isShown = useMemo(() => {
-		if (componentProp) {
-			return (componentProp === componentState) && show
-		}
-		return show
-	}, [ componentProp, componentState, show ])
+		window.dispatchEvent(closeEvent)
+	}, [ setMounted ])
 
 	return {
-		isShown,
+		isShown: isMounted,
 		setShow,
 	}
 }
 
-export default useOverlay
+export default useShowOverlay
