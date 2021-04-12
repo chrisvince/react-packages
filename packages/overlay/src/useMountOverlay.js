@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useOverlayContext } from './store'
 import { checkPropTypes, func, number, object, string } from 'prop-types'
-import createRequestCloseEvent from './utilities/createRequestCloseEvent'
 
 import consts from './consts'
 const { OVERLAY_SHOULD_CLOSE_EVENT_TYPE } = consts
@@ -25,7 +24,6 @@ const useMountOverlay = (options = {}) => {
 	} = options
 
 	const { state: { overlays }, dispatch } = useOverlayContext()
-	const closeEvent = createRequestCloseEvent(component)
 
 	useEffect(() => {
 		const handleOverlayClose = event => {
@@ -59,7 +57,6 @@ const useMountOverlay = (options = {}) => {
 			type: 'OVERLAY_SET',
 			payload: {
 				component,
-				closeEvent,
 				props,
 				zIndex,
 			},

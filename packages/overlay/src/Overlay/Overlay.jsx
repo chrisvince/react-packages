@@ -39,7 +39,6 @@ const Component = props => {
 	const overlayRef = useRef()
 	const { state } = useOverlayContext()
 	const { overlays } = state
-	const closeEvent = createRequestCloseEvent(component)
 
 	useEffect(() => {
 		const overlayRefCurrent = overlayRef.current
@@ -52,16 +51,18 @@ const Component = props => {
 			if (event.keyCode !== 27) return
 			const highestOverlay = overlays.reduce((acc, curr) => curr.zIndex > acc.zIndex ? curr : acc)
 			if (highestOverlay.component !== component) return
+			const closeEvent = createRequestCloseEvent(component)
 			window.dispatchEvent(closeEvent)
 		}
 		window.addEventListener('keydown', handleKeydown)
 		return () => window.removeEventListener('keydown', handleKeydown)
-	}, [ closeEvent, overlays, component ])
+	}, [ overlays, component ])
 
 	const handleBackdropClick = useCallback(event => {
 		if (event.target !== event.currentTarget) return
+		const closeEvent = createRequestCloseEvent(component)
 		window.dispatchEvent(closeEvent)
-	}, [ closeEvent ])
+	}, [])
 
 	return (
 		<OverlayWrapper
