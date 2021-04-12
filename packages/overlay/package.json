@@ -1,6 +1,6 @@
 {
   "name": "@sb-m/overlay",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A flexible overlay.",
   "author": "sb-m <sb-m.com>",
   "publishConfig": {
