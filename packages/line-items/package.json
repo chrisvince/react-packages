@@ -1,8 +1,12 @@
 {
   "name": "@sb-m/line-items",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Utilities for handling line item ecommerce data",
-  "author": "sb-m <sb-m.com>",
+  "author": {
+    "name": "sb-m",
+    "email": "hello@sb-m.com",
+    "url": "https://sb-m.com"
+  },
   "publishConfig": {
     "access": "public"
   },
