@@ -1,13 +1,13 @@
 import add from './add'
-import remove from './remove'
-import increment from './increment'
 import decrement from './decrement'
-import updateQuantity from './updateQuantity'
+import increment from './increment'
+import remove from './remove'
+import setQuantity from './setQuantity'
 
 export {
 	add,
-	remove,
-	increment,
 	decrement,
-	updateQuantity,
+	increment,
+	remove,
+	setQuantity,
 }
