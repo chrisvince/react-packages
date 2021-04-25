@@ -1,9 +1,6 @@
-import { useCallback, useEffect, useMemo } from 'react'
-import { useOverlayContext } from './store'
+import { useCallback, useMemo } from 'react'
 import { checkPropTypes, func, number, object, string } from 'prop-types'
-
-import consts from './consts'
-const { OVERLAY_SHOULD_CLOSE_EVENT_TYPE } = consts
+import { useOverlayContext } from './store'
 
 const DISPLAY_NAME = 'useMountOverlay'
 
@@ -18,34 +15,11 @@ const useMountOverlay = (options = {}) => {
 	checkPropTypes(PROP_TYPES, options, 'option', DISPLAY_NAME)
 	const {
 		component,
-		onCloseRequested = () => { },
 		props,
 		zIndex,
 	} = options
 
 	const { state: { overlays }, dispatch } = useOverlayContext()
-
-	useEffect(() => {
-		const handleOverlayClose = event => {
-			const isCurrentComponent = component === event.detail.component
-			if (!isCurrentComponent) return
-			onCloseRequested()
-		}
-		window.addEventListener(OVERLAY_SHOULD_CLOSE_EVENT_TYPE, handleOverlayClose)
-		return () => window.removeEventListener(OVERLAY_SHOULD_CLOSE_EVENT_TYPE, handleOverlayClose)
-	}, [component, onCloseRequested])
-
-	const currentOverlay = useMemo(() => (
-		overlays.find(overlay => overlay.component === component)
-	), [ component, overlays ])
-
-	useEffect(() => {
-		if (overlays.length <= 1) return
-		const isDuplicateZIndex = overlays.reduce((acc, curr) => acc.zIndex === curr.zIndex)
-		if (!isDuplicateZIndex) return
-		// eslint-disable-next-line no-console
-		console.error('Multiple zIndex values found in useOverlay. zIndexes should be unique.')
-	}, [ overlays ])
 
 	const dispatchMounted = useCallback(() => {
 		if (!component) {
@@ -88,11 +62,9 @@ const useMountOverlay = (options = {}) => {
 	}, [ dispatch ])
 
 	const isMounted = useMemo(() => {
-		if (currentOverlay) {
-			return true
-		}
-		return false
-	}, [ currentOverlay ])
+		const isInOverlayList = overlays.find(overlay => overlay.component === component)
+		return !!isInOverlayList
+	}, [ component, overlays ])
 
 	return {
 		isMounted,

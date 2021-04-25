@@ -1,9 +1,9 @@
 import Provider from './Provider'
-import useMountOverlay from './useMountOverlay'
 import useOverlay from './useOverlay'
+import useOverlayManager from './useOverlayManager'
 
 export {
 	Provider,
-	useMountOverlay,
 	useOverlay,
+	useOverlayManager,
 }

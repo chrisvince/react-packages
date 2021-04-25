@@ -62,7 +62,7 @@ const Component = props => {
 		if (event.target !== event.currentTarget) return
 		const closeEvent = createRequestCloseEvent(component)
 		window.dispatchEvent(closeEvent)
-	}, [])
+	}, [ component ])
 
 	return (
 		<OverlayWrapper

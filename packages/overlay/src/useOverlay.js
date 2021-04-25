@@ -27,7 +27,7 @@ const useShowOverlay = (options = {}) => {
 		props,
 		zIndex,
 	})
-	
+
 	const setShow = useCallback(show => {
 		if (show) {
 			setMounted(true)
@@ -35,7 +35,7 @@ const useShowOverlay = (options = {}) => {
 		}
 		const closeEvent = createRequestCloseEvent(component)
 		window.dispatchEvent(closeEvent)
-	}, [ setMounted ])
+	}, [ component, setMounted ])
 
 	const hideAll = useCallback(() => {
 		if (!overlays) return

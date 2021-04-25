@@ -7,6 +7,7 @@ import ContentAndOverlays from '../ContentAndOverlays'
 const DISPLAY_NAME = 'Provider'
 
 const PROP_TYPES = {
+	// eslint-disable-next-line react/forbid-prop-types
 	components: object.isRequired,
 }
 

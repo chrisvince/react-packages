@@ -6,7 +6,9 @@ const reducer = (state, action) => {
 
 	switch (type) {
 		case 'OVERLAY_SET': {
-			const existingIndex = state.overlays.findIndex(overlay => overlay.component === payload.component)
+			const existingIndex = state.overlays.findIndex(overlay => (
+				overlay.component === payload.component
+			))
 			const noExisting = existingIndex === -1
 			if (noExisting) {
 				const newOverlay = {

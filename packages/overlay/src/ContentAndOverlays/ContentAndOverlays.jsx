@@ -9,7 +9,8 @@ const DISPLAY_NAME = 'ContentAndOverlays'
 const DEFAULT_PROPS = {}
 
 const PROP_TYPES = {
-	components: object,
+	// eslint-disable-next-line react/forbid-prop-types
+	components: object.isRequired,
 }
 
 const Component = ({ components, children }) => {
@@ -23,14 +24,15 @@ const Component = ({ components, children }) => {
 				{children}
 			</div>
 			{overlays.map(({ component, zIndex, props }) => {
-				const Component = components[component]
+				const OverlayComponent = components[component]
 				return (
 					<Overlay
 						component={component}
 						key={component}
 						zIndex={zIndex}
 					>
-						<Component {...props} />
+						{/* eslint-disable-next-line react/jsx-props-no-spreading */}
+						<OverlayComponent {...props} />
 					</Overlay>
 				)
 			})}
