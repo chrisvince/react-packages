@@ -1,23 +1,31 @@
-const initialize = (options = {}) => {
+import { assocPath, mergeDeepRight, path } from 'ramda'
+
+const reduxLocalStorage = (options = {}) => {
 	const {
 		localStorageKey = 'state',
-		stateToPersist: getStateToPersist = () => {},
+		select = [],
 	} = options
 
-	const loadState = () => {
+	const getStateToPersist = state => select.reduce((acc, rule) => {
+		const pathList = rule.split('.').map(x => x.trim())
+		const value = path(pathList, state)
+		return assocPath(pathList, value, acc)
+	}, {})
+
+	const loadState = (defaultState = {}) => {
 		try {
 			const serializedState = localStorage.getItem(localStorageKey)
 			if (!serializedState) {
-				return undefined
+				return defaultState
 			}
 			const state = JSON.parse(serializedState)
-			return state
+			return mergeDeepRight(defaultState, state)
 		} catch (error) {
-			return undefined
+			return {}
 		}
 	}
 
-	const saveState = state => {
+	const saveState = (state = {}) => {
 		const stateToPersist = getStateToPersist(state)
 
 		if (!stateToPersist) {
@@ -39,4 +47,4 @@ const initialize = (options = {}) => {
 	}
 }
 
-export default initialize
+export default reduxLocalStorage

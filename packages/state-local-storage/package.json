@@ -1,8 +1,12 @@
 {
-  "name": "@sb-m/redux-local-storage",
+  "name": "@sb-m/state-local-storage",
   "version": "1.0.0",
-  "description": "Functions for persisting redux data to local storage.",
-  "author": "sb-m <sb-m.com>",
+  "description": "Functions for persisting state data to local storage.",
+  "author": {
+    "name": "sb-m",
+    "email": "hello@sb-m.com",
+    "url": "https://sb-m.com"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -39,5 +43,8 @@
   "bugs": {
     "url": "https://github.com/sb-m/shopify-storefront-utilities/issues"
   },
-  "homepage": "https://github.com/sb-m/shopify-storefront-utilities#readme"
+  "homepage": "https://github.com/sb-m/shopify-storefront-utilities#readme",
+  "dependencies": {
+    "ramda": "^0.27.1"
+  }
 }
