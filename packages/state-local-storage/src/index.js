@@ -21,7 +21,7 @@ const reduxLocalStorage = (options = {}) => {
 			const state = JSON.parse(serializedState)
 			return mergeDeepRight(defaultState, state)
 		} catch (error) {
-			return {}
+			return defaultState
 		}
 	}
 
