@@ -14,10 +14,6 @@ const OverlayWrapper = styled.div`
 	${position(0)}
 	z-index: 8500;
 	overflow: auto;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
 `
 
 const DEFAULT_PROPS = {
@@ -58,17 +54,10 @@ const Component = props => {
 		return () => window.removeEventListener('keydown', handleKeydown)
 	}, [ overlays, component ])
 
-	const handleBackdropClick = useCallback(event => {
-		if (event.target !== event.currentTarget) return
-		const closeEvent = createRequestCloseEvent(component)
-		window.dispatchEvent(closeEvent)
-	}, [ component ])
-
 	return (
 		<OverlayWrapper
 			style={{ zIndex }}
 			ref={overlayRef}
-			onClick={handleBackdropClick}
 		>
 			{children}
 		</OverlayWrapper>
