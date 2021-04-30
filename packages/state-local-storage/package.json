@@ -1,6 +1,6 @@
 {
   "name": "@sb-m/state-local-storage",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Functions for persisting state data to local storage.",
   "author": {
     "name": "sb-m",
