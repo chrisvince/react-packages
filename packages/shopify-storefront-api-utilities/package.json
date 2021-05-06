@@ -1,6 +1,6 @@
 {
   "name": "@sb-m/shopify-storefront-api-utilities",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Utilities for handling Shopify data sourced from the Shopify Storefront API",
   "author": {
     "name": "sb-m",
@@ -26,6 +26,7 @@
     "react": "^17.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.13.13",
     "@rollup/plugin-babel": "^5.3.0",
@@ -56,6 +57,7 @@
   "homepage": "https://github.com/sb-m/shopify-storefront-utilities#readme",
   "dependencies": {
     "numeral": "^2.0.6",
+    "prop-types": "^15.7.2",
     "ramda": "^0.27.1",
     "shopify-gid": "^1.0.1"
   }
