@@ -1,5 +1,5 @@
-# ecommerce-utilities
-This repo contains utilities to be used for sb-m ecommerce projects.
+# Namespace Packages
+This repo contains useful packages for usage in Namespace projects.
 
 ## Packages
 | Package                                                                                                                               | Description                                                     |
