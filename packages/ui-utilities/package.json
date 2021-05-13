@@ -1,11 +1,11 @@
 {
-  "name": "@sb-m/ui-utilities",
-  "version": "1.1.4",
-  "description": "Design/UI utilities used for sb-m",
+  "name": "@nmsp/ui-utilities",
+  "version": "1.0.0",
+  "description": "Design/UI utilities used for Namespace",
   "author": {
-    "name": "sb-m",
-    "email": "hello@sb-m.com",
-    "url": "https://sb-m.com"
+    "name": "Namespace",
+    "email": "hello@namespacecreative.com",
+    "url": "https://namespacecreative.com"
   },
   "publishConfig": {
     "access": "public"
@@ -21,7 +21,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "prop-types": "^15.7.2",
     "react-dom": "^17.0.2",
     "react": "^17.0.2"
   },
@@ -56,6 +55,7 @@
   },
   "homepage": "https://github.com/sb-m/shopify-storefront-utilities#readme",
   "dependencies": {
+    "prop-types": "^15.7.2",
     "ramda": "^0.27.1",
     "react-spring": "^9.1.2"
   }

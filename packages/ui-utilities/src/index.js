@@ -1,9 +1,7 @@
-import SetScreenCSSVariables from './SetScreenCSSVariables'
-import useSetScreenCSSVariables from './useSetScreenCSSVariables'
+import CSSViewportVariables from './CSSViewportVariables'
 import logCodeMark from './logCodeMark'
 
 export {
 	logCodeMark,
-	SetScreenCSSVariables,
-	useSetScreenCSSVariables,
+	CSSViewportVariables,
 }
