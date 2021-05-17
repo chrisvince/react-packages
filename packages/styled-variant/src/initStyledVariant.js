@@ -1,7 +1,9 @@
 import { prop } from 'ramda'
 
 // eslint-disable-next-line no-console
-const notifyInvalidSlug = slug => console.error(`${slug} is not a valid design.`)
+const notifyInvalidSlug = (slug, prop) => (
+	console.error(`${slug} is not a valid option for the ${prop} prop.`)
+)
 
 const initStyledVariant = (designs, options = {}) => ({ default: defaultSlug }) => {
 	const { prop: propValue = 'variant' } = options
@@ -10,7 +12,7 @@ const initStyledVariant = (designs, options = {}) => ({ default: defaultSlug }) 
 	const defaultSlugIsInvalid = defaultSlug && !defaultCss
 
 	if (defaultSlugIsInvalid) {
-		notifyInvalidSlug(defaultSlug)
+		notifyInvalidSlug(defaultSlug, propValue)
 		return null
 	}
 
@@ -19,7 +21,7 @@ const initStyledVariant = (designs, options = {}) => ({ default: defaultSlug }) 
 		const slugIsInvalid = slug && !css
 
 		if (slugIsInvalid) {
-			notifyInvalidSlug(slug)
+			notifyInvalidSlug(slug, propValue)
 			return null
 		}
 

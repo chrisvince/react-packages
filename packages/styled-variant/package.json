@@ -1,11 +1,11 @@
 {
-  "name": "@sb-m/styled-variant",
+  "name": "styled-variant",
   "version": "1.0.0",
   "description": "A utility to manage design variants using styled components.",
   "author": {
-    "name": "sb-m",
-    "email": "hello@sb-m.com",
-    "url": "https://sb-m.com"
+    "name": "Namespace",
+    "email": "hello@namespacecreative.com",
+    "url": "https://namespacecreative.com"
   },
   "publishConfig": {
     "access": "public"
@@ -21,10 +21,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^18.0.0",
-    "@rollup/plugin-node-resolve": "^11.2.1",
-    "@sb-m/eslint-config": "^1.1.8",
-    "rollup": "^2.43.1",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@sb-m/eslint-config": "^1.1.9",
+    "rollup": "^2.48.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2"
@@ -34,12 +34,10 @@
     "url": "git+https://github.com/sb-m/shopify-storefront-utilities.git"
   },
   "keywords": [
-    "Shopify",
-    "Storefront",
-    "API",
     "React",
-    "Gatsby",
-    "Hooks"
+    "styled-components",
+    "Variant",
+    "design"
   ],
   "license": "ISC",
   "bugs": {

@@ -1,12 +1,12 @@
-# @sb-m/styled-variant
+# styled-variant
 
 ## Overview
-`@sb-m/styled-variant` provides a way to easily manage variants using styled-components. You can set
+`styled-variant` provides a way to easily manage variants using styled-components. You can set
 pre-defined variant styles, and then easily use them in styled components by setting a pre-defined
 prop.
 
 ## Installation
-`npm install @sb-m/styled-variant`
+`npm install styled-variant`
 
 ## Usage
 ### Step 1
