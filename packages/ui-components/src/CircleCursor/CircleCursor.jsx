@@ -79,7 +79,7 @@ const DEFAULT_PROPS = {
 	textCursorWidth: '2px',
 	textCursorHeight: '26px',
 	opacity: 0.85,
-	color: '#000000',
+	color: '#ffffff',
 }
 
 const PROP_TYPES = {
