@@ -108,7 +108,7 @@ const Component = props => {
 	const [ showTextCursor, setShowTextCursor ] = useState(false)
 
 	const animation = useSpring({
-		scale: cursorScale,
+		scale: showTextCursor ? 1 : cursorScale,
 		height: showTextCursor ? textCursorHeight : size,
 		clipPathX: showTextCursor ? computeTextCursorClipAmount(size, textCursorWidth) : '0px',
 		translateY: showTextCursor ? computeTextCursorTranslateY(size, textCursorHeight) : '0px',

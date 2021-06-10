@@ -1,6 +1,6 @@
 {
   "name": "@nmsp/overlay",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A flexible overlay.",
   "author": "Namespace <namespacecreative.com>",
   "publishConfig": {
