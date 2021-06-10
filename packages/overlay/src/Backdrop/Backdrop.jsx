@@ -24,6 +24,7 @@ const Component = props => {
 		className,
 		style,
 		onClick,
+		...restProps
 	} = props
 
 	const handleBackdropClick = useCallback(event => {
@@ -36,6 +37,7 @@ const Component = props => {
 			onClick={handleBackdropClick}
 			className={className}
 			style={style}
+			{...restProps}
 		>
 			{children}
 		</Wrapper>
