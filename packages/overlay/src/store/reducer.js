@@ -1,4 +1,4 @@
-import { append, assoc, pipe, remove, update } from 'ramda'
+import { append, assoc, isNil, pipe, remove, update } from 'ramda'
 import defaultState from './defaultState'
 
 const reducer = (state, action) => {
@@ -15,14 +15,16 @@ const reducer = (state, action) => {
 					component: payload.component,
 					props: payload.props,
 					zIndex: payload.zIndex,
+					lockScroll: payload.lockScroll,
 				}
 				const newOverlays = append(newOverlay, state.overlays)
 				return assoc('overlays', newOverlays, state)
 			}
 
 			const updatedExisting = pipe(
-				overlay => payload.props ? assoc('props', payload.props, overlay) : overlay,
-				overlay => payload.zIndex ? assoc('zIndex', payload.zIndex, overlay) : overlay,
+				overlay => !isNil(payload.props) ? assoc('props', payload.props, overlay) : overlay,
+				overlay => !isNil(payload.zIndex) ? assoc('zIndex', payload.zIndex, overlay) : overlay,
+				overlay => !isNil(payload.lockScroll) ? assoc('lockScroll', payload.lockScroll, overlay) : overlay,
 			)(state.overlays[existingIndex])
 
 			const newOverlays = update(existingIndex, updatedExisting, state.overlays)

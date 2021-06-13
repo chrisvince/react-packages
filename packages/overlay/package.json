@@ -1,6 +1,6 @@
 {
   "name": "@nmsp/overlay",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A flexible overlay.",
   "author": "Namespace <namespacecreative.com>",
   "publishConfig": {
@@ -28,7 +28,7 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@sb-m/eslint-config": "^1.1.9",
-    "rollup": "^2.51.1",
+    "rollup": "^2.51.2",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2"

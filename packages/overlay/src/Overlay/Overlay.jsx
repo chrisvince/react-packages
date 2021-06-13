@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { number, string } from 'prop-types'
+import { bool, number, string } from 'prop-types'
 import styled from 'styled-components'
 import { position } from 'polished'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
@@ -18,10 +18,12 @@ const OverlayWrapper = styled.div`
 
 const DEFAULT_PROPS = {
 	zIndex: undefined,
+	lockScroll: true,
 }
 
 const PROP_TYPES = {
 	component: string.isRequired,
+	lockScroll: bool,
 	zIndex: number,
 }
 
@@ -30,6 +32,7 @@ const Component = props => {
 		children,
 		component,
 		zIndex,
+		lockScroll,
 	} = props
 
 	const overlayRef = useRef()
@@ -37,10 +40,11 @@ const Component = props => {
 	const { overlays } = state
 
 	useEffect(() => {
+		if (!lockScroll) return
 		const overlayRefCurrent = overlayRef.current
 		disableBodyScroll(overlayRefCurrent)
 		return () => enableBodyScroll(overlayRefCurrent)
-	}, [])
+	}, [ lockScroll ])
 
 	useEffect(() => {
 		const handleKeydown = event => {

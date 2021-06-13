@@ -23,12 +23,13 @@ const Component = ({ components, children }) => {
 			<div aria-hidden={overlayExists}>
 				{children}
 			</div>
-			{overlays.map(({ component, zIndex, props }) => {
+			{overlays.map(({ component, lockScroll, props, zIndex }) => {
 				const OverlayComponent = components[component]
 				return (
 					<Overlay
 						component={component}
 						key={component}
+						lockScroll={lockScroll}
 						zIndex={zIndex}
 					>
 						{/* eslint-disable-next-line react/jsx-props-no-spreading */}

@@ -3,6 +3,7 @@ import useOverlay from './useOverlay'
 
 import consts from './consts'
 import useMountOverlay from './useMountOverlay'
+import { useOverlayContext } from './store'
 
 const { OVERLAY_SHOULD_CLOSE_EVENT_TYPE } = consts
 
@@ -11,8 +12,12 @@ const useOverlayManager = props => {
 		component,
 		onCloseRequested: onCloseRequestedProp,
 		onMounted = () => {},
+		closeOnScroll = false,
+		zIndex,
+		lockScroll = true,
 	} = props
 
+	const { dispatch } = useOverlayContext()
 	const { setMounted } = useMountOverlay({ component })
 	const { setShow } = useOverlay({ component })
 	const unmount = useCallback(() => setMounted(false), [ setMounted ])
@@ -37,6 +42,23 @@ const useOverlayManager = props => {
 		onMounted()
 		onMountedCalled.current = true
 	})
+
+	useEffect(() => {
+		if (!closeOnScroll) return
+		window.addEventListener('wheel', unshow)
+		return () => window.removeEventListener('wheel', unshow)
+	}, [ closeOnScroll, unshow ])
+
+	useEffect(() => {
+		dispatch({
+			type: 'OVERLAY_SET',
+			payload: {
+				component,
+				lockScroll,
+				zIndex,
+			},
+		})
+	}, [ component, dispatch, lockScroll, zIndex ])
 
 	return {
 		unmount,
