@@ -41,10 +41,17 @@ const CURSOR_TYPES = {
 	TEXT: 'text',
 }
 
-const GlobalStyle = createGlobalStyle`* { cursor: none !important; }`
+const GlobalStyle = createGlobalStyle`
+	@media (hover: hover) {
+		* { cursor: none !important; }
+	}
+`
 
 const Cursor = styled(animated.div)`
-	@media (pointer: fine) {
+	display: none;
+
+	@media (hover: hover) {
+		display: block;
 		position: fixed;
 		top: -100px;
 		left: -100px;
