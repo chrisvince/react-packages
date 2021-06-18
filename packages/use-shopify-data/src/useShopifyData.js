@@ -231,10 +231,10 @@ const manipulateProduct = (productParam, options) => {
 			return assoc('linkTo', linkTo, product)
 		},
 		product => {
-			if (!product.priceRange) {
+			if (!product.priceRangeV2) {
 				return product
 			}
-			const formattedPriceRange = formatPriceRange(product.priceRange)
+			const formattedPriceRange = formatPriceRange(product.priceRangeV2)
 			return assoc('formattedPriceRange', formattedPriceRange, product)
 		},
 		product => {
