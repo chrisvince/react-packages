@@ -17,10 +17,12 @@ const DATA_TYPE = {
 
 const PRODUCT_PRESERVE_LEFT = [
 	'shopifyId',
+	'storefrontId',
 ]
 
 const PRODUCT_VARIANT_PRESERVE_LEFT = [
 	'shopifyId',
+	'storefrontId',
 ]
 
 const PRODUCT_VARIANT_OMIT_PROPS = [
@@ -78,23 +80,23 @@ const searchForArray = pipe(
 const findMatchingRight = (leftItem, rightItems) => rightItems.find(rightItem => pipe(
 	matches => {
 		if (matches) return true
-		if (leftItem.shopifyId === rightItem.id) {
+		if (leftItem.storefrontId === rightItem.id) {
 			return true
 		}
 		return false
 	},
 	matches => {
 		if (matches) return true
-		const leftDecodedShopifyId = decode(leftItem.shopifyId).id
+		const leftDecodedShopifyId = decode(leftItem.storefrontId).id
 		if (
-			is(String, rightItem.shopifyId)
-			&& leftDecodedShopifyId === rightItem.shopifyId
+			is(String, rightItem.storefrontId)
+			&& leftDecodedShopifyId === rightItem.storefrontId
 		) {
 			return true
 		}
 		if (
-			is(Number, rightItem.shopifyId)
-			&& leftDecodedShopifyId === rightItem.shopifyId.toString()
+			is(Number, rightItem.storefrontId)
+			&& leftDecodedShopifyId === rightItem.storefrontId.toString()
 		) {
 			return true
 		}
@@ -161,10 +163,10 @@ const manipulateProductVariant = (variantParam, product, options) => {
 			return assoc('linkTo', linkTo, variant)
 		},
 		variant => {
-			if (!variant.shopifyId) {
+			if (!variant.storefrontId) {
 				return variant
 			}
-			const decodedShopifyId = decode(variant.shopifyId).id
+			const decodedShopifyId = decode(variant.storefrontId).id
 			return assoc('decodedShopifyId', decodedShopifyId, variant)
 		},
 		variant => {
@@ -236,10 +238,10 @@ const manipulateProduct = (productParam, options) => {
 			return assoc('formattedPriceRange', formattedPriceRange, product)
 		},
 		product => {
-			if (!product.shopifyId) {
+			if (!product.storefrontId) {
 				return product
 			}
-			const decodedShopifyId = decode(product.shopifyId).id
+			const decodedShopifyId = decode(product.storefrontId).id
 			return assoc('decodedShopifyId', decodedShopifyId, product)
 		},
 		product => {
@@ -255,7 +257,7 @@ const manipulateProduct = (productParam, options) => {
 }
 
 const mergeDataItem = (left, right) => {
-	const { type } = decode(left.shopifyId)
+	const { type } = decode(left.storefrontId)
 	switch (type) {
 		case DATA_TYPE.PRODUCT: return mergeProduct(left, right)
 		case DATA_TYPE.PRODUCT_VARIANT: return mergeVariant(left, right)
@@ -284,7 +286,7 @@ const mergeDataSingleHandler = (data, dataSingle) => (
 )
 
 const manipulateDataHandler = (data, options) => data.map(dataItem => {
-	const { type } = decode(dataItem.shopifyId)
+	const { type } = decode(dataItem.storefrontId)
 	switch (type) {
 		case DATA_TYPE.PRODUCT: {
 			return manipulateProduct(dataItem, options)
