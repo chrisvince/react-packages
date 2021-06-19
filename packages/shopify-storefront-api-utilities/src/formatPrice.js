@@ -1,20 +1,24 @@
 import numeral from 'numeral'
+import getSymbolFromCurrency from 'currency-symbol-map'
 
 export default (price = {}, options = {}) => {
 	if (!price) {
 		return undefined
 	}
+
 	const {
 		amount,
 		currencyCode,
 	} = price
+
 	const {
-		format = '$0,0.00',
+		alwaysShowCents = false,
 		showCurrency = true,
 	} = options
 
-	const formattedCurrencyCode = (currencyCode && showCurrency) ? `${currencyCode} ` : ''
+	const computedCurrency = (currencyCode && showCurrency) ? `${currencyCode} ` : ''
+	const currencySymbol = getSymbolFromCurrency(currencyCode)
+	const format = `${computedCurrency}${currencySymbol}0,0${alwaysShowCents ? '.' : '[.]'}00`
 	const formattedAmount = numeral(amount).format(format)
-
 	return `${formattedCurrencyCode}${formattedAmount}`
 }
