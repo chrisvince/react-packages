@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { assoc, dissoc, is, mergeWithKey, omit, path, pipe, prop } from 'ramda'
 import { decode } from 'shopify-gid'
-import { arrayOf, checkPropTypes, func, object, shape } from 'prop-types'
+import { arrayOf, bool, checkPropTypes, func, object, shape } from 'prop-types'
 import {
 	formatPrice,
 	formatPriceRange,
