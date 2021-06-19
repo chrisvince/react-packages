@@ -1,6 +1,6 @@
 {
   "name": "@nmsp/use-shopify-data",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A utility for merging, manipulating, and filtering Shopify data with other data sources.",
   "author": {
     "name": "Namespace",
@@ -56,7 +56,7 @@
   "homepage": "https://github.com/sb-m/use-shopify-data#readme",
   "dependencies": {
     "@babel/core": "^7.14.6",
-    "@nmsp/shopify-storefront-api-utilities": "^1.0.3",
+    "@nmsp/shopify-storefront-api-utilities": "^1.0.4",
     "ramda": "^0.27.1",
     "shopify-gid": "^1.0.1"
   }

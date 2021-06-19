@@ -18,7 +18,9 @@ export default (price = {}, options = {}) => {
 
 	const computedCurrency = (currencyCode && showCurrency) ? `${currencyCode} ` : ''
 	const currencySymbol = getSymbolFromCurrency(currencyCode)
-	const format = `${computedCurrency}${currencySymbol}0,0${alwaysShowCents ? '.' : '[.]'}00`
-	const formattedPrice = numeral(amount).format(format)
+	const prefix = `${computedCurrency}${currencySymbol}`
+	const format = `0,0${alwaysShowCents ? '.' : '[.]'}00`
+	const formattedAmount = numeral(amount).format(format)
+	const formattedPrice = `${prefix}${formattedAmount}`
 	return formattedPrice
 }
