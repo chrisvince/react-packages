@@ -6,7 +6,7 @@ import {
 	formatPrice,
 	formatPriceRange,
 	selectedOptionsToObject,
-} from '@sb-m/shopify-storefront-api-utilities'
+} from '@nmsp/shopify-storefront-api-utilities'
 
 const DISPLAY_NAME = 'useShopifyData'
 
@@ -151,7 +151,14 @@ const manipulateProductVariant = (variantParam, product, options) => {
 	const {
 		renderProductVariantLinkTo,
 		renderProductLinkTo,
+		alwaysShowCents,
+		showCurrency,
 	} = options
+
+	const formatPriceOptions = {
+		alwaysShowCents,
+		showCurrency,
+	}
 
 	return pipe(
 		variant => {
@@ -181,13 +188,13 @@ const manipulateProductVariant = (variantParam, product, options) => {
 				return variant
 			}
 
-			const formattedPrice = formatPrice(variant.priceV2)
+			const formattedPrice = formatPrice(variant.priceV2, formatPriceOptions)
 
 			if (!variant.compareAtPriceV2) {
 				return assoc('formattedPrice', <>{formattedPrice}</>, variant)
 			}
 
-			const formattedCompareAtPrice = formatPrice(variant.compareAtPriceV2)
+			const formattedCompareAtPrice = formatPrice(variant.compareAtPriceV2, formatPriceOptions)
 
 			const renderPrice = (
 				<>
@@ -206,6 +213,8 @@ const manipulateProductVariant = (variantParam, product, options) => {
 			const newProduct = manipulateProduct(variant.product, {
 				renderProductLinkTo,
 				renderProductVariantLinkTo,
+				alwaysShowCents,
+				showCurrency,
 			})
 			return assoc('product', newProduct, variant)
 		},
@@ -220,7 +229,14 @@ const manipulateProduct = (productParam, options) => {
 	const {
 		renderProductLinkTo,
 		renderProductVariantLinkTo,
+		alwaysShowCents,
+		showCurrency,
 	} = options
+
+	const formatPriceOptions = {
+		alwaysShowCents,
+		showCurrency,
+	}
 
 	return pipe(
 		product => {
@@ -234,7 +250,7 @@ const manipulateProduct = (productParam, options) => {
 			if (!product.priceRangeV2) {
 				return product
 			}
-			const formattedPriceRange = formatPriceRange(product.priceRangeV2)
+			const formattedPriceRange = formatPriceRange(product.priceRangeV2, formatPriceOptions)
 			return assoc('formattedPriceRange', formattedPriceRange, product)
 		},
 		product => {
@@ -250,6 +266,8 @@ const manipulateProduct = (productParam, options) => {
 			}
 			const newVariants = handleProductVariantsManipulation(product.variants, product, {
 				renderProductVariantLinkTo,
+				alwaysShowCents,
+				showCurrency,
 			})
 			return assoc('variants', newVariants, product)
 		},
@@ -307,6 +325,8 @@ const PROP_TYPES = {
 	options: shape({
 		renderProductLinkTo: func,
 		renderProductVariantLinkTo: func,
+		alwaysShowCents: bool,
+		showCurrency: bool,
 	}),
 	sort: func,
 }
@@ -325,6 +345,8 @@ const useShopifyData = props => {
 			renderProductVariantLinkTo = (handle, selectedOptions) => (
 				`/shop/${handle}?${renderOptionQueryString(selectedOptions)}`
 			),
+			alwaysShowCents,
+			showCurrency,
 		} = {},
 		sort,
 	} = props
@@ -334,6 +356,8 @@ const useShopifyData = props => {
 	const manipulateData = useCallback(data => manipulateDataHandler(data, {
 		renderProductLinkTo,
 		renderProductVariantLinkTo,
+		alwaysShowCents,
+		showCurrency,
 	}), [ renderProductLinkTo, renderProductVariantLinkTo ])
 
 	const filtering = useCallback(input => {
