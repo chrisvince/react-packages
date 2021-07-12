@@ -4,8 +4,9 @@ import remove from './remove'
 
 export default (variantId, quantity, lineItems) => {
 	const existingLineItemIndex = findLineItemIndex(variantId, lineItems)
+	const quantityParsed = parseInt(quantity, 10)
 
-	if (existingLineItemIndex === -1) {
+	if (!quantityParsed || existingLineItemIndex === -1) {
 		return lineItems
 	}
 
@@ -15,7 +16,6 @@ export default (variantId, quantity, lineItems) => {
 	}
 
 	const existingLineItem = nth(existingLineItemIndex, lineItems)
-	const quantityParsed = parseInt(quantity, 10)
 	const newLineItem = assoc('quantity', quantityParsed, existingLineItem)
 	const newLineItems = update(existingLineItemIndex, newLineItem, lineItems)
 	return newLineItems

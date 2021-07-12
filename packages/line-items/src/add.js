@@ -1,9 +1,9 @@
 import { append, assoc, nth, update } from 'ramda'
 import { findLineItemIndex } from './utilities'
 
-export default (variantId, quantity = 1, lineItems) => {
+export default (variantId, quantity, lineItems) => {
 	const existingLineItemIndex = findLineItemIndex(variantId, lineItems)
-	const quantityParsed = parseInt(quantity, 10)
+	const quantityParsed = parseInt(quantity, 10) || 1
 
 	if (existingLineItemIndex === -1) {
 		const newLineItem = {
