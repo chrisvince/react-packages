@@ -3,11 +3,12 @@ import { findLineItemIndex } from './utilities'
 
 export default (variantId, quantity = 1, lineItems) => {
 	const existingLineItemIndex = findLineItemIndex(variantId, lineItems)
+	const quantityParsed = parseInt(quantity, 10)
 
 	if (existingLineItemIndex === -1) {
 		const newLineItem = {
 			variantId,
-			quantity,
+			quantity: quantityParsed,
 		}
 		const newLineItems = append(newLineItem, lineItems)
 		return newLineItems
@@ -15,7 +16,6 @@ export default (variantId, quantity = 1, lineItems) => {
 
 	const existingLineItem = nth(existingLineItemIndex, lineItems)
 	const existingLineItemQuantityParsed = parseInt(existingLineItem.quantity, 10)
-	const quantityParsed = parseInt(quantity, 10)
 	const newQuantity = existingLineItemQuantityParsed + quantityParsed
 	const newLineItem = assoc('quantity', newQuantity, existingLineItem)
 	const newLineItems = update(existingLineItemIndex, newLineItem, lineItems)
