@@ -1,5 +1,5 @@
 # Namespace Packages
-This repo contains useful packages for usage in Namespace projects.
+This repo contains useful React/utility packages.
 
 ## Packages
 | Package                                                                                                                                 | Description                                                                                                          |
