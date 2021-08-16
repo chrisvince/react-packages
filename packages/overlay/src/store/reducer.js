@@ -9,8 +9,8 @@ const reducer = (state, action) => {
 			const existingIndex = state.overlays.findIndex(overlay => (
 				overlay.component === payload.component
 			))
-			const noExisting = existingIndex === -1
-			if (noExisting) {
+			const overlayExists = existingIndex !== -1
+			if (!overlayExists) {
 				const newOverlay = {
 					component: payload.component,
 					props: payload.props,
