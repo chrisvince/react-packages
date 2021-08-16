@@ -19,7 +19,7 @@ const useMountOverlay = (options = {}) => {
 		zIndex,
 	} = options
 
-	const { state: { overlays }, dispatch } = useOverlayContext()
+	const { state: { overlays = [] }, dispatch } = useOverlayContext()
 
 	const dispatchMounted = useCallback(() => {
 		if (!component) {
