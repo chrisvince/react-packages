@@ -49,7 +49,7 @@ const { loadState, saveState } = initializeLocalStorage(options)
 | Parameter         | Type     | Description                                                                                            |
 |:------------------|:---------|--------------------------------------------------------------------------------------------------------|
 | `localStorageKey` | String   | The local storage key for storing the state. Defaults to 'state'                                       |
-| `select`          | Array | An array of strings that match the data to be persisted. Nested data can be determined by a period ('.'). |
+| `select`          | Array    | A list of strings that match the data to be persisted. Nested data can be denoted by a period ('.'). |
 
 ## loadState
 Loads the saved state from local storage.

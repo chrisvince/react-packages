@@ -1,6 +1,6 @@
 import { assocPath, mergeDeepRight, path } from 'ramda'
 
-const reduxLocalStorage = (options = {}) => {
+const stateLocalStorage = (options = {}) => {
 	const {
 		localStorageKey = 'state',
 		select = [],
@@ -47,4 +47,4 @@ const reduxLocalStorage = (options = {}) => {
 	}
 }
 
-export default reduxLocalStorage
+export default stateLocalStorage
