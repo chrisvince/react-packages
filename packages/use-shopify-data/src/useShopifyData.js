@@ -88,19 +88,10 @@ const findMatchingRight = (leftItem, rightItems) => rightItems.find(rightItem =>
 	matches => {
 		if (matches) return true
 		const leftDecodedShopifyId = decode(leftItem.storefrontId).id
-		if (
-			is(String, rightItem.storefrontId)
-			&& leftDecodedShopifyId === rightItem.storefrontId
-		) {
-			return true
-		}
-		if (
-			is(Number, rightItem.storefrontId)
-			&& leftDecodedShopifyId === rightItem.storefrontId.toString()
-		) {
-			return true
-		}
-		return false
+		const rightShopifyId = (
+			is(Number, rightItem.shopifyId) ? rightItem.shopifyId.toString() : rightItem.shopifyId
+		)
+		return leftDecodedShopifyId === rightShopifyId
 	},
 )(false))
 
@@ -358,7 +349,7 @@ const useShopifyData = props => {
 		renderProductVariantLinkTo,
 		alwaysShowCents,
 		showCurrency,
-	}), [ renderProductLinkTo, renderProductVariantLinkTo ])
+	}), [ alwaysShowCents, renderProductLinkTo, renderProductVariantLinkTo, showCurrency ])
 
 	const filtering = useCallback(input => {
 		if (find) return input.find(find)

@@ -1,11 +1,11 @@
-# @sb-m/use-shopify-data
+# @nmsp/use-shopify-data
 
 ## Overview
-`@sb-m/use-shopify-data` contains functions for working with data from the
+`@nmsp/use-shopify-data` contains functions for working with data from the
 Shopify Storefront API.
 
 ## Installation
-`npm install @sb-m/use-shopify-data`
+`npm install @nmsp/use-shopify-data`
 
 ## Usage
-`import { useShopifyData } from '@sb-m/use-shopify-data'`.
+`import { useShopifyData } from '@nmsp/use-shopify-data'`.
