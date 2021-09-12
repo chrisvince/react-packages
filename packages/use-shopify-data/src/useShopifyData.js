@@ -80,7 +80,11 @@ const searchForArray = pipe(
 const findMatchingRight = (leftItem, rightItems) => rightItems.find(rightItem => pipe(
 	matches => {
 		if (matches) return true
-		if (leftItem.storefrontId === rightItem.id) {
+		if (
+			leftItem.storefrontId === rightItem.id
+			|| leftItem.storefrontId === rightItem.storefrontId
+			|| leftItem.id === rightItem.storefrontId
+		) {
 			return true
 		}
 		return false
