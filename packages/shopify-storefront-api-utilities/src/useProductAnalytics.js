@@ -18,14 +18,19 @@ const PROP_TYPES = {
 	productVariantUrl: string.isRequired,
 }
 
+const parseAmount = amount => {
+	const float = parseFloat(amount)
+	return float === NaN ? undefined : float
+}
+
 const usePDPAnalytics = props => {
 	checkPropTypes(PROP_TYPES, props, 'prop', DISPLAY_NAME)
 
 	const data = {
-		productCompareAtPriceAmount: parseFloat(props.productCompareAtPriceAmount),
+		productCompareAtPriceAmount: parseAmount(props.productCompareAtPriceAmount),
 		productCompareAtPriceCurrencyCode: props.productCompareAtPriceCurrencyCode,
 		productId: props.productId,
-		productPriceAmount: parseFloat(props.productPriceAmount),
+		productPriceAmount: parseAmount(props.productPriceAmount),
 		productPriceCurrencyCode: props.productPriceCurrencyCode,
 		productTitle: props.productTitle,
 		productVariantId: props.productVariantId,
