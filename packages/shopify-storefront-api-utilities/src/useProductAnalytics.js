@@ -26,23 +26,22 @@ const parseAmount = amount => {
 const usePDPAnalytics = props => {
 	checkPropTypes(PROP_TYPES, props, 'prop', DISPLAY_NAME)
 
-	const data = {
-		productCompareAtPriceAmount: parseAmount(props.productCompareAtPriceAmount),
-		productCompareAtPriceCurrencyCode: props.productCompareAtPriceCurrencyCode,
-		productId: props.productId,
-		productPriceAmount: parseAmount(props.productPriceAmount),
-		productPriceCurrencyCode: props.productPriceCurrencyCode,
-		productTitle: props.productTitle,
-		productVariantId: props.productVariantId,
-		productVariantImage: props.productVariantImage,
-		productVariantUrl: props.productVariantUrl,
-	}
-
 	const createEventLogger = event => () => {
 		if (!Array.isArray(window.dataLayer)) {
 			window.dataLayer = []
 		}
-		window.dataLayer.push({ event, ...data })
+		window.dataLayer.push({
+			event,
+			productCompareAtPriceAmount: parseAmount(props.productCompareAtPriceAmount),
+			productCompareAtPriceCurrencyCode: props.productCompareAtPriceCurrencyCode,
+			productId: props.productId,
+			productPriceAmount: parseAmount(props.productPriceAmount),
+			productPriceCurrencyCode: props.productPriceCurrencyCode,
+			productTitle: props.productTitle,
+			productVariantId: props.productVariantId,
+			productVariantImage: props.productVariantImage,
+			productVariantUrl: props.productVariantUrl,
+		})
 	}
 
 	return {
