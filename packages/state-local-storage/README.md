@@ -1,10 +1,10 @@
-# @sb-m/state-local-storage
+# @nmsp/state-local-storage
 
 ## Overview
-`@sb-m/state-local-storage` enables Redux state to be persisted in the user's local storage.
+`@nmsp/state-local-storage` enables Redux state to be persisted in the user's local storage.
 
 ## Installation
-`npm install @sb-m/state-local-storage`
+`npm install @nmsp/state-local-storage`
 
 ## Usage
 The package must be initialized as per below. The `select` option determines which data should be
@@ -18,7 +18,7 @@ called everytime the state updates which will save the selected data (determined
 field in localstorage
 
 ```
-import initializeLocalStorage from '@sb-m/state-local-storage'
+import initializeLocalStorage from '@nmsp/state-local-storage'
 
 const { loadState, saveState } = initializeLocalStorage({
 	localStorageKey: 'localStorageKey', // Optional, defaults to 'state'.
@@ -41,7 +41,7 @@ Initializes the local storage package.
 
 ### Syntax
 ```
-import initializeLocalStorage from '@sb-m/state-local-storage'
+import initializeLocalStorage from '@nmsp/state-local-storage'
 
 const { loadState, saveState } = initializeLocalStorage(options)
 ```

@@ -1,11 +1,11 @@
 {
-  "name": "@sb-m/state-local-storage",
+  "name": "@nmsp/state-local-storage",
   "version": "1.0.1",
   "description": "Functions for persisting state data to local storage.",
   "author": {
-    "name": "sb-m",
-    "email": "hello@sb-m.com",
-    "url": "https://sb-m.com"
+    "name": "Namespace",
+    "email": "hello@namespacecreative.com",
+    "url": "https://namespacecreative.com"
   },
   "publishConfig": {
     "access": "public"
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.1.0",
-    "@sb-m/eslint-config": "^1.0.21",
+    "@nmsp/eslint-config": "^1.0.21",
     "eslint-loader": "^4.0.2",
     "eslint": "^7.18.0",
     "rollup-plugin-livereload": "^2.0.0",
