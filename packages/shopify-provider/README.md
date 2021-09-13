@@ -1,16 +1,16 @@
-# @sb-m/shopify-provider
+# @nmsp/shopify-provider
 
 ## Overview
-`@sb-m/shopify-provider` is a React provider for managing Shopify line items and checkout. It allows
+`@nmsp/shopify-provider` is a React provider for managing Shopify line items and checkout. It allows
 you to add, remove, and update line items, and prepare a Shopify checkout to redirect to.
 
 ## Installation
-`npm install @sb-m/shopify-provider`
+`npm install @nmsp/shopify-provider`
 
 ## Provider
 The provider manages lineItems and checkout data.
 ```
-import { Provider as ShopifyProvider } from '@sb-m/shopify-provider'
+import { Provider as ShopifyProvider } from '@nmsp/shopify-provider'
 
 const credentials = {
 	domain: 'YOUR_SHOPIFY_DOMAIN',
@@ -29,7 +29,7 @@ Hook to manage line items. You can use `useLineItems` anywhere inside the `Provi
 
 ### Syntax
 ```
-import { useLineItems } from '@sb-m/shopify-provider'
+import { useLineItems } from '@nmsp/shopify-provider'
 
 const Component = () => {
 	const { add, lineItems } = useLineItems({

@@ -6,7 +6,7 @@ import {
 	increment,
 	remove,
 	setQuantity,
-} from '@sb-m/line-items'
+} from '@nmsp/line-items'
 
 import { actions, useContext } from './store'
 import useValidateCheckout from './useValidateCheckout'
