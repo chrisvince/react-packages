@@ -20,7 +20,7 @@ const PROP_TYPES = {
 
 const parseAmount = amount => {
 	const float = parseFloat(amount)
-	return float === NaN ? undefined : float
+	return isNaN(float) ? undefined : float
 }
 
 const usePDPAnalytics = props => {
