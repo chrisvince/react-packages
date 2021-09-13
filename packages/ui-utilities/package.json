@@ -1,6 +1,6 @@
 {
   "name": "@nmsp/ui-utilities",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Design/UI utilities used for Namespace",
   "author": {
     "name": "Namespace",
@@ -31,7 +31,7 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
-    "@sb-m/eslint-config": "^1.1.8",
+    "@nmsp/eslint-config": "^1.1.8",
     "rollup": "^2.45.2",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
