@@ -1,10 +1,10 @@
-# @sb-m/overlay
+# @nmsp/overlay
 
 ## Overview
-`@sb-m/overlay` is a simple, unopinionated and flexible overlay UI component/provider.
+`@nmsp/overlay` is a simple, unopinionated and flexible overlay UI component/provider.
 
 ## Installation
-`npm install @sb-m/overlay`
+`npm install @nmsp/overlay`
 
 ## Usage
 ### Provider
@@ -15,7 +15,7 @@ child components. It is recommended to utilize a code-spliting library such as
 [loadable-components](https://loadable-components.com/).
 
 ```
-import { Provider as OverlayProvider } from '@sb-m/overlay'
+import { Provider as OverlayProvider } from '@nmsp/overlay'
 import OverlayComponentOne from '../OverlayComponentOne'
 import loadable from '@loadable/component'
 
@@ -76,7 +76,7 @@ This is an example of an overlay component (passed to the `Provider`).
 
 ```
 import React, { useCallback, useEffect, useState } from 'react'
-import { useMountOverlay } from '@sb-m/overlay'
+import { useMountOverlay } from '@nmsp/overlay'
 import { animated, useSpring } from 'react-spring'
 
 const Component = () => {
