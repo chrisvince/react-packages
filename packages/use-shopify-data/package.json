@@ -30,7 +30,7 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
-    "@sb-m/eslint-config": "^1.1.9",
+    "@nmsp/eslint-config": "^1.1.9",
     "rollup": "^2.56.3",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-peer-deps-external": "^2.2.4",
