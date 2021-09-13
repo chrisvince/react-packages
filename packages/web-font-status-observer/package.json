@@ -1,6 +1,6 @@
 {
   "name": "@nmsp/web-font-status-observer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Observer fired when web font status changes.",
   "author": {
     "name": "Namespace",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
-    "@sb-m/eslint-config": "^1.1.8",
+    "@nmsp/eslint-config": "^1.1.8",
     "rollup": "^2.45.2",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
