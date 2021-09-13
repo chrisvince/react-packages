@@ -1,14 +1,14 @@
-# @sb-m/line-items
+# @nmsp/line-items
 
 ## Overview
-`@sb-m/line-items` contains some handy utility functions for manipulating line-item data. Line item
+`@nmsp/line-items` contains some handy utility functions for manipulating line-item data. Line item
 data is best stored in state management (i.e. redux).
 
 ## Installation
-`npm install @sb-m/line-items`
+`npm install @nmsp/line-items`
 
 ## Usage
-Each utility function can be imported as a named import. For example, `import { add } from '@sb-m/line-items'`.
+Each utility function can be imported as a named import. For example, `import { add } from '@nmsp/line-items'`.
 
 ## Available functions
 
