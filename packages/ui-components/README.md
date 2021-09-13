@@ -1,14 +1,14 @@
-# @sb-m/ui-utilities
+# @nmsp/ui-utilities
 
 ## Overview
-`@sb-m/ui-utilities` contains utilities for frontend design/UI.
+`@nmsp/ui-utilities` contains utilities for frontend design/UI.
 
 ## Installation
-`npm install @sb-m/ui-utilities`
+`npm install @nmsp/ui-utilities`
 
 ## Usage
 Each utility function can be imported as a named import. For example,
-`import { useSetScreenCSSVariables } from '@sb-m/ui-utilities'`.
+`import { useSetScreenCSSVariables } from '@nmsp/ui-utilities'`.
 
 ## Available Functions
 ### useSetScreenCSSVariables
