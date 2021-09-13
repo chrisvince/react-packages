@@ -1,6 +1,6 @@
 {
   "name": "styled-variant",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A utility to manage design variants using styled components.",
   "author": {
     "name": "Namespace",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
-    "@sb-m/eslint-config": "^1.1.9",
+    "@nmsp/eslint-config": "^1.1.9",
     "rollup": "^2.48.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
