@@ -1,6 +1,4 @@
-import { useCallback } from 'react'
-import { checkPropTypes, shape, string } from 'prop-types'
-import { useLocation } from '@reach/router'
+import { checkPropTypes, number, oneOfType, string } from 'prop-types'
 
 const DISPLAY_NAME = 'useProductAnalytics'
 
@@ -9,69 +7,38 @@ const PRODUCT_CUSTOMIZED_EVENT = 'customize-product'
 const PRODUCT_ADDED_TO_BAG_EVENT = 'add-to-bag'
 
 const PROP_TYPES = {
-	decodedShopifyId: string.isRequired,
-	title: string.isRequired,
-	variant: shape({
-		compareAtPriceV2: shape({
-			amount: string.isRequired,
-			currencyCode: string.isRequired,
-		}),
-		decodedShopifyId: string.isRequired,
-		image: shape({
-			originalSrc: string.isRequired,
-		}).isRequired,
-		linkTo: string.isRequired,
-		priceV2: shape({
-			amount: string.isRequired,
-			currencyCode: string.isRequired,
-		}).isRequired,
-	}),
+	productCompareAtPriceAmount: oneOfType([ string, number ]),
+	productCompareAtPriceCurrencyCode: string,
+	productId: string.isRequired,
+	productPriceAmount: oneOfType([ string, number ]).isRequired,
+	productPriceCurrencyCode: string.isRequired,
+	productTitle: string.isRequired,
+	productVariantId: string.isRequired,
+	productVariantImage: string.isRequired,
+	productVariantUrl: string.isRequired,
 }
 
-const usePDPAnalytics = product => {
-	checkPropTypes(PROP_TYPES, product, 'prop', DISPLAY_NAME)
-	const location = useLocation()
-
-	const {
-		decodedShopifyId: productId,
-		title,
-		variant: {
-			compareAtPriceV2: {
-				amount: productCompareAtPrice,
-				currencyCode: productCompareAtPriceCurrencyCode,
-			} = {},
-			decodedShopifyId: productVariantId,
-			image: {
-				originalSrc: productVariantImage,
-			} = {},
-			linkTo,
-			priceV2: {
-				amount: productPriceAmount,
-				currencyCode: productPriceCurrencyCode,
-			} = {},
-		},
-	} = product
-
-	const productVariantUrl = location.origin + linkTo
+const usePDPAnalytics = props => {
+	checkPropTypes(PROP_TYPES, props, 'prop', DISPLAY_NAME)
 
 	const data = {
-		productCompareAtPrice,
-		productCompareAtPriceCurrencyCode,
-		productId,
-		productPriceAmount: parseFloat(productPriceAmount),
-		productPriceCurrencyCode,
-		productTitle: title,
-		productVariantId,
-		productVariantImage,
-		productVariantUrl,
+		productCompareAtPriceAmount: parseFloat(props.productCompareAtPriceAmount),
+		productCompareAtPriceCurrencyCode: props.productCompareAtPriceCurrencyCode,
+		productId: props.productId,
+		productPriceAmount: parseFloat(props.productPriceAmount),
+		productPriceCurrencyCode: props.productPriceCurrencyCode,
+		productTitle: props.productTitle,
+		productVariantId: props.productVariantId,
+		productVariantImage: props.productVariantImage,
+		productVariantUrl: props.productVariantUrl,
 	}
 
-	const createEventLogger = useCallback(event => () => {
+	const createEventLogger = event => () => {
 		if (!Array.isArray(window.dataLayer)) {
 			window.dataLayer = []
 		}
 		window.dataLayer.push({ event, ...data })
-	}, [ data ])
+	}
 
 	return {
 		productAddedToBag: createEventLogger(PRODUCT_ADDED_TO_BAG_EVENT),
