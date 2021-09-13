@@ -1,14 +1,14 @@
-# @sb-m/shopify-storefront-api-utilities
+# @nmsp/shopify-storefront-api-utilities
 
 ## Overview
-`@sb-m/shopify-storefront-api-utilities` contains functions for working with data from the
+`@nmsp/shopify-storefront-api-utilities` contains functions for working with data from the
 Shopify Storefront API.
 
 ## Installation
-`npm install @sb-m/shopify-storefront-api-utilities`
+`npm install @nmsp/shopify-storefront-api-utilities`
 
 ## Usage
-Each utility function can be imported as a named import. For example, `import { productFromProductId } from '@sb-m/shopify-storefront-api-utilities'`.
+Each utility function can be imported as a named import. For example, `import { productFromProductId } from '@nmsp/shopify-storefront-api-utilities'`.
 
 ## Available Functions
 ### productFromProductId
