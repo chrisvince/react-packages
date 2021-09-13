@@ -81,8 +81,9 @@ const findMatchingRight = (leftItem, rightItems) => rightItems.find(rightItem =>
 	matches => {
 		if (matches) return true
 		if (
-			leftItem.storefrontId === rightItem.id
-			|| leftItem.storefrontId === rightItem.storefrontId
+			leftItem.storefrontId === rightItem.storefrontId
+			|| leftItem.id === rightItem.id
+			|| leftItem.storefrontId === rightItem.id
 			|| leftItem.id === rightItem.storefrontId
 		) {
 			return true

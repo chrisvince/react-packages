@@ -1,1 +1,1 @@
-module.exports = { extends: '@sb-m' }
+module.exports = { extends: '@nmsp' }

@@ -5,3 +5,5 @@ export {
 	findVariantFromOptions,
 	useShopifyData,
 }
+
+export default useShopifyData
