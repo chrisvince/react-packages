@@ -80,19 +80,22 @@ const mergeVariant = (left, right) => {
 	return variantWithOmittedProps
 }
 
-const findMatchingRight = (left, rightItems) => rightItems.find(right => {
-	const checkMatch = (x, y) => matched => {
-		if (matched) return true
-		if (x && y) return x === y
-		return false
-	}
-	return pipe(
-		checkMatch(left.storefrontId, right.storefrontId),
-		checkMatch(left.id, right.id),
-		checkMatch(left.storefrontId, right.id),
-		checkMatch(left.id, right.storefrontId),
-	)(false)
-})
+const findMatchingRight = (left, rightItems) => {
+	const rightData = removeEdgesAndNodeNesting(rightItems)
+	return rightData.find(right => {
+		const checkMatch = (x, y) => matched => {
+			if (matched) return true
+			if (x && y) return x === y
+			return false
+		}
+		return pipe(
+			checkMatch(left.storefrontId, right.storefrontId),
+			checkMatch(left.id, right.id),
+			checkMatch(left.storefrontId, right.id),
+			checkMatch(left.id, right.storefrontId),
+		)(false)
+	})
+}
 
 const matchItems = (left, right) => left.map(leftItem => (
 	[ leftItem, findMatchingRight(leftItem, right) ]
@@ -280,14 +283,10 @@ const mergeDataHandler = data => data.reduce((left, right) => {
 	return mergedItems
 })
 
-const mergeDataSingleHandler = (data, dataSingle) => (
-	dataSingle.reduce((leftItem, rightItem) => {
-		if (!rightItem) {
-			return leftItem
-		}
-		return mergeDataItem(leftItem, rightItem)
-	}, data)
-)
+const mergeDataSingleHandler = (data, dataSingle) => dataSingle.reduce((leftItem, rightItem) => {
+	if (!rightItem) return leftItem
+	return mergeDataItem(leftItem, rightItem)
+}, data)
 
 const manipulateDataHandler = (data, options) => data.map(dataItem => {
 	const { type } = decode(dataItem.storefrontId)
