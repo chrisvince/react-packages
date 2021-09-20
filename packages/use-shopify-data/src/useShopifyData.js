@@ -35,6 +35,29 @@ const PRODUCT_OMIT_PROPS = [
 	'__typename',
 ]
 
+const removeEdgesAndNodeNesting = pipe(
+	input => {
+		if (is(Array, input)) {
+			return input
+		}
+		if (is(Array, input.edges)) {
+			return input.edges
+		}
+		return input
+	},
+	input => {
+		if (is(Array, input)) {
+			return input.map(item => {
+				if (item.node) {
+					return item.node
+				}
+				return item
+			})
+		}
+		return input
+	},
+)
+
 const handleDuplicateVariantDataPoint = (key, left, right) => {
 	if (key === 'product') {
 		// eslint-disable-next-line no-use-before-define
@@ -46,37 +69,16 @@ const handleDuplicateVariantDataPoint = (key, left, right) => {
 
 const mergeVariant = (left, right) => {
 	if (!right) return left
+	const leftData = removeEdgesAndNodeNesting(left)
+	const rightData = removeEdgesAndNodeNesting(right)
 	const mergedVariant = mergeWithKey(
 		handleDuplicateVariantDataPoint,
-		left,
-		right,
+		leftData,
+		rightData,
 	)
 	const variantWithOmittedProps = omit(PRODUCT_VARIANT_OMIT_PROPS, mergedVariant)
 	return variantWithOmittedProps
 }
-
-const removeEdgesAndNodeNesting = pipe(
-	input => {
-		if (is(Array, input)) {
-			return input
-		}
-		if (is(Array, input.edges)) {
-			return input.edges
-		}
-		return undefined
-	},
-	input => {
-		if (is(Array, input)) {
-			return input.map(item => {
-				if (item.node) {
-					return item.node
-				}
-				return item
-			})
-		}
-		return undefined
-	},
-)
 
 const findMatchingRight = (left, rightItems) => rightItems.find(right => {
 	const checkMatch = (x, y) => matched => {
@@ -272,7 +274,10 @@ const mergeDataHandler = data => data.reduce((left, right) => {
 	const leftData = removeEdgesAndNodeNesting(left)
 	const rightData = removeEdgesAndNodeNesting(right)
 	const matchedItems = matchItems(leftData, rightData)
-	return matchedItems.map(([ leftItem, rightItem ]) => mergeDataItem(leftItem, rightItem))
+	const mergedItems = matchedItems.map(([ leftItem, rightItem ]) => (
+		mergeDataItem(leftItem, rightItem)
+	))
+	return mergedItems
 })
 
 const mergeDataSingleHandler = (data, dataSingle) => (
