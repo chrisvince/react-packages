@@ -45,6 +45,7 @@ const handleDuplicateVariantDataPoint = (key, left, right) => {
 }
 
 const mergeVariant = (left, right) => {
+	if (!right) return left
 	const mergedVariant = mergeWithKey(
 		handleDuplicateVariantDataPoint,
 		left,
@@ -54,7 +55,7 @@ const mergeVariant = (left, right) => {
 	return variantWithOmittedProps
 }
 
-const searchForArray = pipe(
+const removeEdgesAndNodeNesting = pipe(
 	input => {
 		if (is(Array, input)) {
 			return input
@@ -77,42 +78,28 @@ const searchForArray = pipe(
 	},
 )
 
-const findMatchingRight = (leftItem, rightItems) => rightItems.find(rightItem => pipe(
-	matches => {
-		if (matches) return true
-		if (
-			leftItem.storefrontId === rightItem.storefrontId
-			|| leftItem.id === rightItem.id
-			|| leftItem.storefrontId === rightItem.id
-			|| leftItem.id === rightItem.storefrontId
-		) {
-			return true
-		}
+const findMatchingRight = (left, rightItems) => rightItems.find(right => {
+	const checkMatch = (x, y) => matched => {
+		if (matched) return true
+		if (x && y) return x === y
 		return false
-	},
-	matches => {
-		if (matches) return true
-		const leftDecodedShopifyId = decode(leftItem.storefrontId).id
-		const rightShopifyId = (
-			is(Number, rightItem.shopifyId) ? rightItem.shopifyId.toString() : rightItem.shopifyId
-		)
-		return leftDecodedShopifyId === rightShopifyId
-	},
-)(false))
+	}
+	return pipe(
+		checkMatch(left.storefrontId, right.storefrontId),
+		checkMatch(left.id, right.id),
+		checkMatch(left.storefrontId, right.id),
+		checkMatch(left.id, right.storefrontId),
+	)(false)
+})
+
+const matchItems = (left, right) => left.map(leftItem => (
+	[ leftItem, findMatchingRight(leftItem, right) ]
+))
 
 const mergeVariants = (left, right) => {
-	if (!right) {
-		return left
-	}
-	const rightData = searchForArray(right)
-	return left.map(leftItem => {
-		const rightItem = findMatchingRight(leftItem, rightData)
-		if (!rightItem) return leftItem
-		return mergeVariant(
-			leftItem,
-			rightItem,
-		)
-	})
+	if (!right) return left
+	const matchedItems = matchItems(left, right)
+	return matchedItems.map(([ leftItem, rightItem ]) => mergeVariant(leftItem, rightItem))
 }
 
 const handleDuplicateProductDataPoint = (key, left, right) => {
@@ -125,6 +112,7 @@ const handleDuplicateProductDataPoint = (key, left, right) => {
 }
 
 const mergeProduct = (left, right) => {
+	if (!right) return left
 	const mergedProduct = mergeWithKey(
 		handleDuplicateProductDataPoint,
 		left,
@@ -271,6 +259,7 @@ const manipulateProduct = (productParam, options) => {
 }
 
 const mergeDataItem = (left, right) => {
+	if (!right) return left
 	const { type } = decode(left.storefrontId)
 	switch (type) {
 		case DATA_TYPE.PRODUCT: return mergeProduct(left, right)
@@ -279,16 +268,12 @@ const mergeDataItem = (left, right) => {
 	}
 }
 
-const mergeDataHandler = data => (
-	data.reduce((left, right) => {
-		if (!right) return left
-		return left.map(leftItem => {
-			const rightItem = findMatchingRight(leftItem, right)
-			if (!rightItem) return leftItem
-			return mergeDataItem(leftItem, rightItem)
-		})
-	})
-)
+const mergeDataHandler = data => data.reduce((left, right) => {
+	const leftData = removeEdgesAndNodeNesting(left)
+	const rightData = removeEdgesAndNodeNesting(right)
+	const matchedItems = matchItems(leftData, rightData)
+	return matchedItems.map(([ leftItem, rightItem ]) => mergeDataItem(leftItem, rightItem))
+})
 
 const mergeDataSingleHandler = (data, dataSingle) => (
 	dataSingle.reduce((leftItem, rightItem) => {
