@@ -81,6 +81,7 @@ const mergeVariant = (left, right) => {
 }
 
 const findMatchingRight = (left, rightItems) => {
+	if (!rightItems) return left
 	const rightData = removeEdgesAndNodeNesting(rightItems)
 	return rightData.find(right => {
 		const checkMatch = (x, y) => matched => {
