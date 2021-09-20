@@ -40,7 +40,7 @@ const removeEdgesAndNodeNesting = pipe(
 		if (is(Array, input)) {
 			return input
 		}
-		if (is(Array, input.edges)) {
+		if (is(Array, input?.edges)) {
 			return input.edges
 		}
 		return input
@@ -48,7 +48,7 @@ const removeEdgesAndNodeNesting = pipe(
 	input => {
 		if (is(Array, input)) {
 			return input.map(item => {
-				if (item.node) {
+				if (item?.node) {
 					return item.node
 				}
 				return item

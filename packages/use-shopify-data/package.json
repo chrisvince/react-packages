@@ -1,6 +1,6 @@
 {
   "name": "@nmsp/use-shopify-data",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "A utility for merging, manipulating, and filtering Shopify data with other data sources.",
   "author": {
     "name": "Namespace",
