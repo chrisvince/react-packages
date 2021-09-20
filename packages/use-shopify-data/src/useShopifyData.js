@@ -285,7 +285,8 @@ const mergeDataHandler = data => data.reduce((left, right) => {
 
 const mergeDataSingleHandler = (data, dataSingle) => dataSingle.reduce((leftItem, rightItem) => {
 	if (!rightItem) return leftItem
-	return mergeDataItem(leftItem, rightItem)
+	const rightItemData = removeEdgesAndNodeNesting(rightItem)
+	return mergeDataItem(leftItem, rightItemData)
 }, data)
 
 const manipulateDataHandler = (data, options) => data.map(dataItem => {
