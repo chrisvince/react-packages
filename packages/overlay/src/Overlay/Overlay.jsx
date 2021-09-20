@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { bool, number, string } from 'prop-types'
 import styled from 'styled-components'
 import { position } from 'polished'
@@ -8,6 +8,8 @@ import createRequestCloseEvent from '../utilities/createRequestCloseEvent'
 import { useOverlayContext } from '../store'
 
 const DISPLAY_NAME = 'RenderOverlay'
+
+const LOCK_BODY_STATES = [ 'entering', 'entered' ]
 
 const OverlayWrapper = styled.div`
 	position: fixed;
@@ -39,8 +41,12 @@ const Component = props => {
 	const { state } = useOverlayContext()
 	const { overlays } = state
 
+	const overlay = useMemo(() => (
+		overlays.find(x => x.component === component)
+	), [ component, overlays ])
+
 	useEffect(() => {
-		if (!lockScroll) return
+		if (!LOCK_BODY_STATES.includes(overlay.state)) return
 		const overlayRefCurrent = overlayRef.current
 		disableBodyScroll(overlayRefCurrent)
 		return () => enableBodyScroll(overlayRefCurrent)

@@ -16,6 +16,7 @@ const reducer = (state, action) => {
 					props: payload.props,
 					zIndex: payload.zIndex,
 					lockScroll: payload.lockScroll,
+					status: payload.status,
 				}
 				const newOverlays = append(newOverlay, state.overlays)
 				return assoc('overlays', newOverlays, state)
@@ -25,6 +26,7 @@ const reducer = (state, action) => {
 				overlay => !isNil(payload.props) ? assoc('props', payload.props, overlay) : overlay,
 				overlay => !isNil(payload.zIndex) ? assoc('zIndex', payload.zIndex, overlay) : overlay,
 				overlay => !isNil(payload.lockScroll) ? assoc('lockScroll', payload.lockScroll, overlay) : overlay,
+				overlay => !isNil(payload.status) ? assoc('status', payload.status, overlay) : overlay,
 			)(state.overlays[existingIndex])
 
 			const newOverlays = update(existingIndex, updatedExisting, state.overlays)
@@ -34,11 +36,7 @@ const reducer = (state, action) => {
 		case 'OVERLAY_UNSET': {
 			const existingIndex = state.overlays.findIndex(overlay => overlay.component === payload.component)
 			const noExisting = existingIndex === -1
-
-			if (noExisting) {
-				return state
-			}
-
+			if (noExisting) return state
 			const newOverlays = remove(existingIndex, 1, state.overlays)
 			return assoc('overlays', newOverlays, state)
 		}

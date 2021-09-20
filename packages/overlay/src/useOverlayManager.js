@@ -10,7 +10,7 @@ const { OVERLAY_SHOULD_CLOSE_EVENT_TYPE } = consts
 const useOverlayManager = props => {
 	const {
 		component,
-		onCloseRequested: onCloseRequestedProp,
+		onCloseRequested,
 		onMounted = () => {},
 		closeOnScroll = false,
 		zIndex,
@@ -19,21 +19,33 @@ const useOverlayManager = props => {
 
 	const { dispatch } = useOverlayContext()
 	const { setMounted } = useMountOverlay({ component })
-	const { setShow } = useOverlay({ component })
+	const { setShow, status } = useOverlay({ component })
 	const unmount = useCallback(() => setMounted(false), [ setMounted ])
 	const unshow = useCallback(() => setShow(false), [ setShow ])
-	const onCloseRequested = onCloseRequestedProp || unmount
 	const onMountedCalled = useRef(false)
+
+	const dispatchStatus = useCallback(status => dispatch({
+		type: 'OVERLAY_SET',
+		payload: {
+			component,
+			status: status,
+		},
+	}), [ component, dispatch ])
 
 	useEffect(() => {
 		const handleOverlayClose = event => {
 			const isCurrentComponent = component === event.detail.component
 			if (!isCurrentComponent) return
-			onCloseRequested(unmount)
+			if (onCloseRequested) {
+				dispatchStatus('exiting')
+				onCloseRequested(unmount)
+				return
+			}
+			unmount()
 		}
 		window.addEventListener(OVERLAY_SHOULD_CLOSE_EVENT_TYPE, handleOverlayClose)
 		return () => window.removeEventListener(OVERLAY_SHOULD_CLOSE_EVENT_TYPE, handleOverlayClose)
-	}, [ component, onCloseRequested, unmount ])
+	}, [ component, onCloseRequested, unmount, dispatchStatus ])
 
 	useEffect(() => {
 		if (onMountedCalled.current) {
@@ -61,6 +73,7 @@ const useOverlayManager = props => {
 	}, [ component, dispatch, lockScroll, zIndex ])
 
 	return {
+		status,
 		unmount,
 		unshow,
 	}

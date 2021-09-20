@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { checkPropTypes, number, object, string } from 'prop-types'
 import { useOverlayContext } from './store'
 import useMountOverlay from './useMountOverlay'
@@ -12,7 +12,7 @@ const PROP_TYPES = {
 	zIndex: number,
 }
 
-const useShowOverlay = (options = {}) => {
+const useOverlay = (options = {}) => {
 	checkPropTypes(PROP_TYPES, options, 'option', DISPLAY_NAME)
 
 	const {
@@ -45,11 +45,16 @@ const useShowOverlay = (options = {}) => {
 		})
 	}, [ overlays ])
 
+	const overlay = useMemo(() => (
+		overlays.find(x => x.component === component)
+	), [ component, overlays ])
+
 	return {
+		status: overlay?.status || 'exited',
 		isShown: isMounted,
 		setShow,
 		hideAll,
 	}
 }
 
-export default useShowOverlay
+export default useOverlay

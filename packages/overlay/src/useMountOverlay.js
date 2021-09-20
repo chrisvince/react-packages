@@ -33,6 +33,7 @@ const useMountOverlay = (options = {}) => {
 				component,
 				props,
 				zIndex,
+				status: 'entering',
 			},
 		})
 	}, [ component, dispatch, props, zIndex ])
