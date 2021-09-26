@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { assoc, dissoc, is, mergeWithKey, omit, path, pipe, prop } from 'ramda'
+import { assoc, dissoc, is, mergeWithKey, omit, pipe } from 'ramda'
 import { decode } from 'shopify-gid'
 import { arrayOf, bool, checkPropTypes, func, object, shape } from 'prop-types'
 import {
@@ -133,8 +133,8 @@ const getVariantsWithNestedProductFromProduct = product => product.variants.map(
 	return assoc('product', productWithoutVariants, variant)
 })
 
-const renderOptionQueryString = selectedOptions => (
-	selectedOptions.map(({ name, value }) => `${name}=${value}`).join('&')
+const renderOptionQueryString = selectedOptionsMap => (
+	Object.keys(selectedOptionsMap).map(name => `${name}=${selectedOptionsMap[name]}`).join('&')
 )
 
 const manipulateProductVariant = (variantParam, product, options) => {
@@ -152,14 +152,6 @@ const manipulateProductVariant = (variantParam, product, options) => {
 
 	return pipe(
 		variant => {
-			const handle = prop('handle', product) || path([ 'product', 'handle' ], variant)
-			if (!handle || !variant.selectedOptions) {
-				return variant
-			}
-			const linkTo = renderProductVariantLinkTo(handle, variant.selectedOptions)
-			return assoc('linkTo', linkTo, variant)
-		},
-		variant => {
 			if (!variant.storefrontId) {
 				return variant
 			}
@@ -172,6 +164,14 @@ const manipulateProductVariant = (variantParam, product, options) => {
 			}
 			const selectedOptionsMap = selectedOptionsToObject(variant.selectedOptions)
 			return assoc('selectedOptionsMap', selectedOptionsMap, variant)
+		},
+		variant => {
+			const handle = product?.handle || variant?.product?.handle
+			if (!handle || !variant.selectedOptionsMap) {
+				return variant
+			}
+			const linkTo = renderProductVariantLinkTo(handle, variant.selectedOptionsMap)
+			return assoc('linkTo', linkTo, variant)
 		},
 		variant => {
 			if (!variant.priceV2) {
@@ -329,8 +329,8 @@ const useShopifyData = props => {
 		findVariant: findVariantProp,
 		options: {
 			renderProductLinkTo = handle => `/shop/${handle}`,
-			renderProductVariantLinkTo = (handle, selectedOptions) => (
-				`/shop/${handle}?${renderOptionQueryString(selectedOptions)}`
+			renderProductVariantLinkTo = (handle, selectedOptionsMap) => (
+				`/shop/${handle}?${renderOptionQueryString(selectedOptionsMap)}`
 			),
 			alwaysShowCents,
 			showCurrency,
