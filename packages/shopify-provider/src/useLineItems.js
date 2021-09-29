@@ -73,6 +73,10 @@ const useLineItems = ({ variantData } = {}) => {
 		return stateLineItems
 	}, [ assocVariantData, stateLineItems, variantData ])
 
+	const totalQuantity = useMemo(() => (
+		lineItems.reduce((acc, lineItem) => acc + lineItem.quantity, 0)
+	), [ lineItems ])
+
 	useValidateCheckout()
 
 	return {
@@ -81,6 +85,7 @@ const useLineItems = ({ variantData } = {}) => {
 		increment: handleIncrement,
 		remove: handleRemove,
 		setQuantity: handleSetQuantity,
+		totalQuantity,
 		lineItems,
 	}
 }
