@@ -31,7 +31,7 @@ const useCheckout = () => {
 
 		if (!state.lineItems.length) {
 			// eslint-disable-next-line no-console
-			console.error('No line items exist.')
+			console.warn('No line items exist.')
 			return null
 		}
 
