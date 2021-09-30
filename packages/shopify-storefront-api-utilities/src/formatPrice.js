@@ -13,14 +13,17 @@ export default (price = {}, options = {}) => {
 
 	const {
 		alwaysShowCents = false,
-		showCurrency = true,
+		showCurrencyCode = true,
+		showCurrencySymbol = true,
+		showCurrencyCodeAfterPrice = false,
 	} = options
 
-	const computedCurrencyCode = (currencyCode && showCurrency) ? `${currencyCode} ` : ''
-	const currencySymbol = (currencyCode && showCurrency) ? getSymbolFromCurrency(currencyCode) : ''
-	const prefix = `${computedCurrencyCode}${currencySymbol}`
+	const computedCurrencyCode = (currencyCode && showCurrencyCode) ? currencyCode : ''
+	const currencySymbol = (currencyCode && showCurrencySymbol) ? getSymbolFromCurrency(currencyCode) : ''
+	const prefix = `${!showCurrencyCodeAfterPrice ? `${computedCurrencyCode} ` : ''}${currencySymbol}`
+	const suffix = showCurrencyCodeAfterPrice ? ` ${computedCurrencyCode}` : ''
 	const format = `0,0${alwaysShowCents ? '.' : '[.]'}00`
 	const formattedAmount = numeral(amount).format(format)
-	const formattedPrice = `${prefix}${formattedAmount}`
+	const formattedPrice = `${prefix}${formattedAmount}${suffix}`
 	return formattedPrice
 }

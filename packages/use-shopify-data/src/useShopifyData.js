@@ -142,12 +142,16 @@ const manipulateProductVariant = (variantParam, product, options) => {
 		renderProductVariantLinkTo,
 		renderProductLinkTo,
 		alwaysShowCents,
-		showCurrency,
+		showCurrencyCode,
+		showCurrencySymbol,
+		showCurrencyCodeAfterPrice,
 	} = options
 
 	const formatPriceOptions = {
 		alwaysShowCents,
-		showCurrency,
+		showCurrencyCode,
+		showCurrencySymbol,
+		showCurrencyCodeAfterPrice,
 	}
 
 	return pipe(
@@ -204,7 +208,9 @@ const manipulateProductVariant = (variantParam, product, options) => {
 				renderProductLinkTo,
 				renderProductVariantLinkTo,
 				alwaysShowCents,
-				showCurrency,
+				showCurrencyCode,
+				showCurrencySymbol,
+				showCurrencyCodeAfterPrice,
 			})
 			return assoc('product', newProduct, variant)
 		},
@@ -220,12 +226,16 @@ const manipulateProduct = (productParam, options) => {
 		renderProductLinkTo,
 		renderProductVariantLinkTo,
 		alwaysShowCents,
-		showCurrency,
+		showCurrencyCode,
+		showCurrencySymbol,
+		showCurrencyCodeAfterPrice,
 	} = options
 
 	const formatPriceOptions = {
 		alwaysShowCents,
-		showCurrency,
+		showCurrencyCode,
+		showCurrencySymbol,
+		showCurrencyCodeAfterPrice,
 	}
 
 	return pipe(
@@ -257,7 +267,9 @@ const manipulateProduct = (productParam, options) => {
 			const newVariants = handleProductVariantsManipulation(product.variants, product, {
 				renderProductVariantLinkTo,
 				alwaysShowCents,
-				showCurrency,
+				showCurrencyCode,
+				showCurrencySymbol,
+				showCurrencyCodeAfterPrice,
 			})
 			return assoc('variants', newVariants, product)
 		},
@@ -313,7 +325,9 @@ const PROP_TYPES = {
 		renderProductLinkTo: func,
 		renderProductVariantLinkTo: func,
 		alwaysShowCents: bool,
-		showCurrency: bool,
+		showCurrencyCode: bool,
+		showCurrencySymbol: bool,
+		showCurrencyCodeAfterPrice: bool,
 	}),
 	sort: func,
 }
@@ -333,7 +347,9 @@ const useShopifyData = props => {
 				`/shop/${handle}?${renderOptionQueryString(selectedOptionsMap)}`
 			),
 			alwaysShowCents,
-			showCurrency,
+			showCurrencyCode,
+			showCurrencySymbol,
+			showCurrencyCodeAfterPrice,
 		} = {},
 		sort,
 	} = props
@@ -344,8 +360,17 @@ const useShopifyData = props => {
 		renderProductLinkTo,
 		renderProductVariantLinkTo,
 		alwaysShowCents,
-		showCurrency,
-	}), [ alwaysShowCents, renderProductLinkTo, renderProductVariantLinkTo, showCurrency ])
+		showCurrencyCode,
+		showCurrencySymbol,
+		showCurrencyCodeAfterPrice,
+	}), [
+		alwaysShowCents,
+		renderProductLinkTo,
+		renderProductVariantLinkTo,
+		showCurrencyCode,
+		showCurrencySymbol,
+		showCurrencyCodeAfterPrice,
+	])
 
 	const filtering = useCallback(input => {
 		if (find) return input.find(find)
@@ -376,7 +401,7 @@ const useShopifyData = props => {
 		const foundVariant = variantsWithNestedProducts.find(findVariantProp)
 		if (!foundVariant) {
 			// eslint-disable-next-line no-console
-			console.error('No variant matches query passed in `findVariant`.')
+			console.warn('No variant matches query passed in `findVariant`.')
 			return product
 		}
 		const productWithoutVariants = dissoc('variants', product)
