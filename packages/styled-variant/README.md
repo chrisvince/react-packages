@@ -13,7 +13,7 @@ prop.
 Initialize styledVariant using `initStyledVariant`.
 ```
 import styled from 'styled-components'
-import { initStyledVariant } from '@nmsp/styled-variant'
+import { initStyledVariant } from 'styled-variant'
 
 // Create variant map with styles
 const variants = {
